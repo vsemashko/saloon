@@ -1,0 +1,32 @@
+{
+  "name": "saloon",
+  "version": "0.0.1",
+  "description": "Electronic bartender on Raspberry pi using node.js",
+  "scripts": {
+    "init": "npm install",
+    "install": "bower install",
+    "start": "node src/server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vsemashko/saloon.git"
+  },
+  "author": "Vladimir Semashko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vsemashko/saloon/issues"
+  },
+  "homepage": "https://github.com/vsemashko/saloon",
+  "dependencies": {
+    "body-parser": "^1.8.2",
+    "compression": "^1.1.0",
+    "cors": "^2.2.0",
+    "express": "^4.9.3",
+    "method-override": "^1.0.0",
+    "morgan": "^1.1.1",
+    "serve-favicon": "^2.0.1",
+	"q": "^1.0.1"
+  },
+  "devDependencies": {    
+  }
+}
