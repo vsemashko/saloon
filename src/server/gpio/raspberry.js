@@ -17,14 +17,22 @@ var Raspberry = function () {
 
     function activate() {
         gpio.setMode(gpio.MODE_BCM);
-        gpio.setup(PUMP_PIN, gpio.DIR_OUT, null);
+        gpio.setup(PUMP_PIN, gpio.DIR_OUT, callback);
+    }
+
+    function callback(data) {
+        console.log(data);
     }
 
     function pour() {
         var deferred = Q.defer();
-        gpio.output(PUMP_PIN, 1);
+        gpio.write(PUMP_PIN, 1, function (response) {
+            console.log(response);
+        });
         setTimeout(function () {
-            gpio.output(PUMP_PIN, 0);
+            gpio.write(PUMP_PIN, 0, function (response) {
+                console.log(response);
+            });
             deferred.resolve();
         }, 3000);
         return deferred.promise;
