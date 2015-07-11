@@ -6,27 +6,30 @@
         .factory('dataservice', dataservice);
 
     /* @ngInject */
-    function dataservice($http, $location, $q, exception, logger) {
+    function dataservice($resource, $q, exception, logger) {
         var isPrimed = false;
         var primePromise;
 
         var service = {
             getCocktails: getCocktails,
+            prepareCocktail: prepareCocktail,
             ready: ready
         };
 
         return service;
 
         function getCocktails() {
-            return $http.get('/api/cocktails')
-                .then(getCocktailsComplete)
-                .catch(function(message) {
-                    exception.catcher('XHR Failed for getCocktails')(message);
-                    $location.url('/');
-                });
-
+            var Cocktails = $resource('/api/cocktails', {});
+            return Cocktails.query({}).$promise.then(getCocktailsComplete).catch(handleException);
             function getCocktailsComplete(data, status, headers, config) {
-                return data.data[0].data;
+                return data[0].data;
+            }
+        }
+
+        function prepareCocktail() {
+            return $resource('/pour', {}).get({}).$promise.then(pourCocktailComplete).catch(handleException);
+            function pourCocktailComplete(data) {
+                return data;
             }
         }
 
@@ -50,6 +53,10 @@
             return readyPromise
                 .then(function() { return $q.all(nextPromises); })
                 .catch(exception.catcher('"ready" function failed'));
+        }
+
+        function handleException(message) {
+            exception.catcher('XHR Failed for data service')(message);
         }
 
     }

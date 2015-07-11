@@ -1,11 +1,11 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('app.core', [
         /*
          * Angular modules
          */
-        'ngAnimate', 'ngRoute', 'ngSanitize',
+        'ngAnimate', 'ngRoute', 'ngSanitize', 'ngResource',
         /*
          * Our reusable cross app code modules
          */

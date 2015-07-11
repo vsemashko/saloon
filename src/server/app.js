@@ -22,6 +22,9 @@ app.use(favicon(__dirname + '/favicon.ico'));
 app.use(cors());                // enable ALL CORS requests
 app.use(errorHandler.init);
 
+var Raspberry = require('./gpio/raspberry');
+exports.raspberry = new Raspberry();
+
 routes = require('./routes/index')(app);
 
 console.log('About to crank up node');

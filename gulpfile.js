@@ -24,13 +24,13 @@ gulp.task('help', plug.taskListing);
  * Lint the code, create coverage report, and a visualizer
  * @return {Stream}
  */
-gulp.task('analyze', function() {
+gulp.task('analyze', function () {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
     var jshint = analyzejshint([].concat(paths.js, paths.specs, paths.nodejs));
     var jscs = analyzejscs([].concat(paths.js, paths.nodejs));
 
-    startPlatoVisualizer();
+    //startPlatoVisualizer();
 
     return merge(jshint, jscs);
 });
@@ -39,7 +39,7 @@ gulp.task('analyze', function() {
  * Create $templateCache from the html templates
  * @return {Stream}
  */
-gulp.task('templatecache', function() {
+gulp.task('templatecache', function () {
     log('Creating an AngularJS $templateCache');
 
     return gulp
@@ -61,7 +61,7 @@ gulp.task('templatecache', function() {
  * Minify and bundle the app's JavaScript
  * @return {Stream}
  */
-gulp.task('js', ['analyze', 'templatecache'], function() {
+gulp.task('js', ['analyze', 'templatecache'], function () {
     log('Bundling, minifying, and copying the app\'s JavaScript');
 
     var source = [].concat(paths.js, paths.build + 'templates.js');
@@ -86,7 +86,7 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
  * Copy the Vendor JavaScript
  * @return {Stream}
  */
-gulp.task('vendorjs', function() {
+gulp.task('vendorjs', function () {
     log('Bundling, minifying, and copying the Vendor JavaScript');
 
     return gulp.src(paths.vendorjs)
@@ -101,7 +101,7 @@ gulp.task('vendorjs', function() {
  * Minify and bundle the CSS
  * @return {Stream}
  */
-gulp.task('css', function() {
+gulp.task('css', function () {
     log('Bundling, minifying, and copying the app\'s CSS');
 
     return gulp.src(paths.css)
@@ -118,7 +118,7 @@ gulp.task('css', function() {
  * Minify and bundle the Vendor CSS
  * @return {Stream}
  */
-gulp.task('vendorcss', function() {
+gulp.task('vendorcss', function () {
     log('Compressing, bundling, copying vendor CSS');
 
     var vendorFilter = plug.filter(['**/*.css']);
@@ -136,7 +136,7 @@ gulp.task('vendorcss', function() {
  * Copy fonts
  * @return {Stream}
  */
-gulp.task('fonts', function() {
+gulp.task('fonts', function () {
     var dest = paths.build + 'fonts';
     log('Copying fonts');
     return gulp
@@ -148,7 +148,7 @@ gulp.task('fonts', function() {
  * Compress images
  * @return {Stream}
  */
-gulp.task('images', function() {
+gulp.task('images', function () {
     var dest = paths.build + 'content/images';
     log('Compressing, caching, and copying images');
     return gulp
@@ -164,7 +164,7 @@ gulp.task('images', function() {
  * rev, but no map
  * @return {Stream}
  */
-gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function() {
+gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function () {
     log('Rev\'ing files and building index.html');
 
     var minified = paths.build + '**/*.min.*';
@@ -180,20 +180,20 @@ gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function() {
         .pipe(gulp.dest(paths.build)) // write the rev files
         .pipe(minFilter.restore()) // remove filter, back to original stream
 
-    // inject the files into index.html
-    .pipe(indexFilter) // filter to index.html
-    .pipe(inject('content/vendor.min.css', 'inject-vendor'))
+        // inject the files into index.html
+        .pipe(indexFilter) // filter to index.html
+        .pipe(inject('content/vendor.min.css', 'inject-vendor'))
         .pipe(inject('content/all.min.css'))
         .pipe(inject('vendor.min.js', 'inject-vendor'))
         .pipe(inject('all.min.js'))
         .pipe(gulp.dest(paths.build)) // write the rev files
-    .pipe(indexFilter.restore()) // remove filter, back to original stream
+        .pipe(indexFilter.restore()) // remove filter, back to original stream
 
-    // replace the files referenced in index.html with the rev'd files
-    .pipe(plug.revReplace()) // Substitute in new filenames
-    .pipe(gulp.dest(paths.build)) // write the index.html file changes
-    .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
-    .pipe(gulp.dest(paths.build)); // write the manifest
+        // replace the files referenced in index.html with the rev'd files
+        .pipe(plug.revReplace()) // Substitute in new filenames
+        .pipe(gulp.dest(paths.build)) // write the index.html file changes
+        .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
+        .pipe(gulp.dest(paths.build)); // write the manifest
 
     function inject(path, name) {
         var pathGlob = paths.build + path;
@@ -212,7 +212,7 @@ gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function() {
  * Build the optimized app
  * @return {Stream}
  */
-gulp.task('build', ['rev-and-inject', 'images', 'fonts'], function() {
+gulp.task('build', ['rev-and-inject', 'images', 'fonts'], function () {
     log('Building the optimized app');
 
     return gulp.src('').pipe(plug.notify({
@@ -224,7 +224,8 @@ gulp.task('build', ['rev-and-inject', 'images', 'fonts'], function() {
 /**
  * Backwards compatible call to make stage and build equivalent
  */
-gulp.task('stage', ['build'], function() {});
+gulp.task('stage', ['build'], function () {
+});
 
 /**
  * Remove all files from the build folder
@@ -232,7 +233,7 @@ gulp.task('stage', ['build'], function() {});
  * from the cmd line: gulp clean && gulp build
  * @return {Stream}
  */
-gulp.task('clean', function(cb) {
+gulp.task('clean', function (cb) {
     log('Cleaning: ' + plug.util.colors.blue(paths.build));
 
     var delPaths = [].concat(paths.build, paths.report);
@@ -242,7 +243,7 @@ gulp.task('clean', function(cb) {
 /**
  * Watch files and build
  */
-gulp.task('watch', function() {
+gulp.task('watch', function () {
     log('Watching all files');
 
     var css = ['gulpfile.js'].concat(paths.css, paths.vendorcss);
@@ -272,8 +273,8 @@ gulp.task('watch', function() {
  *    gulp test --startServers
  * @return {Stream}
  */
-gulp.task('test', function(done) {
-    startTests(true /*singleRun*/ , done);
+gulp.task('test', function (done) {
+    startTests(true /*singleRun*/, done);
 });
 
 /**
@@ -282,15 +283,15 @@ gulp.task('test', function(done) {
  * To start servers and run midway specs as well:
  *    gulp autotest --startServers
  */
-gulp.task('autotest', function(done) {
-    startTests(false /*singleRun*/ , done);
+gulp.task('autotest', function (done) {
+    startTests(false /*singleRun*/, done);
 });
 
 /**
  * serve the dev environment, with debug,
  * and with node inspector
  */
-gulp.task('serve-dev-debug', function() {
+gulp.task('serve-dev-debug', function () {
     serve({
         mode: 'dev',
         debug: '--debug'
@@ -301,7 +302,7 @@ gulp.task('serve-dev-debug', function() {
  * serve the dev environment, with debug-brk,
  * and with node inspector
  */
-gulp.task('serve-dev-debug-brk', function() {
+gulp.task('serve-dev-debug-brk', function () {
     serve({
         mode: 'dev',
         debug: '--debug-brk'
@@ -311,7 +312,7 @@ gulp.task('serve-dev-debug-brk', function() {
 /**
  * serve the dev environment
  */
-gulp.task('serve-dev', function() {
+gulp.task('serve-dev', function () {
     serve({
         mode: 'dev'
     });
@@ -320,7 +321,7 @@ gulp.task('serve-dev', function() {
 /**
  * serve the build environment
  */
-gulp.task('serve-build', function() {
+gulp.task('serve-build', function () {
     serve({
         mode: 'build'
     });
@@ -329,7 +330,8 @@ gulp.task('serve-build', function() {
 /**
  * Backwards compatible call to make stage and build equivalent
  */
-gulp.task('serve-stage', ['serve-build'], function() {});
+gulp.task('serve-stage', ['serve-build'], function () {
+});
 
 ////////////////
 
@@ -387,14 +389,14 @@ function serve(args) {
     }
 
     return plug.nodemon(options)
-        .on('start', function() {
+        .on('start', function () {
             startBrowserSync();
         })
         //.on('change', tasks)
-        .on('restart', function() {
+        .on('restart', function () {
             log('restarted!');
             setTimeout(function () {
-                browserSync.reload({ stream: false });
+                browserSync.reload({stream: false});
             }, 1000);
         });
 }
@@ -403,7 +405,7 @@ function serve(args) {
  * Start BrowserSync
  */
 function startBrowserSync() {
-    if(!env.browserSync || browserSync.active) {
+    if (!env.browserSync || browserSync.active) {
         return;
     }
 
