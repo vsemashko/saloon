@@ -6,7 +6,7 @@
         .factory('dataservice', dataservice);
 
     /* @ngInject */
-    function dataservice($resource, $q, exception, logger) {
+    function dataservice($resource, $q, exception) {
         var isPrimed = false;
         var primePromise;
 
