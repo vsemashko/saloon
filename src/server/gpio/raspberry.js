@@ -4,7 +4,7 @@ var util = require('util');
 var Q = require('q');
 
 var Raspberry = function () {
-    var PUMP_PIN = 4;
+    var PUMP_PIN = 3;
 
     var vm = this;
     vm.pour = pour;
