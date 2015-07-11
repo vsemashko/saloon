@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -16,12 +16,14 @@
 
         activate();
 
-        function activate() { getNavRoutes(); }
+        function activate() {
+            getNavRoutes();
+        }
 
         function getNavRoutes() {
-            vm.navRoutes = routes.filter(function(r) {
+            vm.navRoutes = routes.filter(function (r) {
                 return r.settings && r.settings.nav;
-            }).sort(function(r1, r2) {
+            }).sort(function (r1, r2) {
                 return r1.settings.nav - r2.settings.nav;
             });
         }

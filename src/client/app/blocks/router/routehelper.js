@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -18,7 +18,7 @@
             // resolveAlways: {ready: function(){ } }
         };
 
-        this.$get = function() {
+        this.$get = function () {
             return {
                 config: this.config
             };
@@ -46,7 +46,7 @@
         ///////////////
 
         function configureRoutes(routes) {
-            routes.forEach(function(route) {
+            routes.forEach(function (route) {
                 route.config.resolve =
                     angular.extend(route.config.resolve || {}, routehelperConfig.config.resolveAlways);
                 $routeProvider.when(route.url, route.config);
@@ -59,7 +59,7 @@
             // On routing error, go to the dashboard.
             // Provide an exit clause if it tries to do it twice.
             $rootScope.$on('$routeChangeError',
-                function(event, current, previous, rejection) {
+                function (event, current, previous, rejection) {
                     if (handlingRouteChangeError) {
                         return;
                     }
@@ -94,7 +94,7 @@
 
         function updateDocTitle() {
             $rootScope.$on('$routeChangeSuccess',
-                function(event, current, previous) {
+                function (event, current, previous) {
                     routeCounts.changes++;
                     handlingRouteChangeError = false;
                     var title = routehelperConfig.config.docTitle + ' ' + (current.title || '');

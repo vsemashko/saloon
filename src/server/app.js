@@ -33,12 +33,12 @@ console.log('NODE_ENV=' + environment);
 
 var source = '';
 
-app.get('/ping', function(req, res, next) {
+app.get('/ping', function (req, res, next) {
     console.log(req.body);
     res.send('pong');
 });
 
-switch (environment){
+switch (environment) {
     case 'stage':
     case 'build':
         console.log('** BUILD **');
@@ -53,9 +53,9 @@ switch (environment){
         break;
 }
 
-app.listen(port, function() {
+app.listen(port, function () {
     console.log('Express server listening on port ' + port);
     console.log('env = ' + app.get('env') +
-        '\n__dirname = ' + __dirname  +
+        '\n__dirname = ' + __dirname +
         '\nprocess.cwd = ' + process.cwd());
 });

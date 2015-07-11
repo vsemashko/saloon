@@ -1,5 +1,5 @@
 /*jshint -W079 */
-var specHelper = (function() {
+var specHelper = (function () {
     var service = {
         fakeLogger: fakeLogger,
         fakeRouteProvider: fakeRouteProvider,
@@ -10,10 +10,14 @@ var specHelper = (function() {
 
     function fakeLogger($provide) {
         $provide.value('logger', sinon.stub({
-            info: function() {},
-            error: function() {},
-            warning: function() {},
-            success: function() {}
+            info: function () {
+            },
+            error: function () {
+            },
+            warning: function () {
+            },
+            success: function () {
+            }
         }));
     }
 
@@ -24,12 +28,12 @@ var specHelper = (function() {
          * which runs on every test otherwise.
          * Make sure this goes before the inject in the spec.
          */
-        $provide.provider('$route', function() {
+        $provide.provider('$route', function () {
             /* jshint validthis:true */
             this.when = sinon.stub();
             this.otherwise = sinon.stub();
 
-            this.$get = function() {
+            this.$get = function () {
                 return {
                     // current: {},  // fake before each test as needed
                     // routes:  {}  // fake before each test as needed
@@ -42,7 +46,7 @@ var specHelper = (function() {
     /**
      * Inspired by Angular; that's how they get the parms for injection
      */
-    function getFnParams (fn) {
+    function getFnParams(fn) {
         var fnText;
         var argDecl;
 
@@ -54,8 +58,8 @@ var specHelper = (function() {
         if (fn.length) {
             fnText = fn.toString().replace(STRIP_COMMENTS, '');
             argDecl = fnText.match(FN_ARGS);
-            angular.forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg) {
-                arg.replace(FN_ARG, function(all, underscore, name) {
+            angular.forEach(argDecl[1].split(FN_ARG_SPLIT), function (arg) {
+                arg.replace(FN_ARG, function (all, underscore, name) {
                     params.push(name);
                 });
             });
@@ -63,7 +67,7 @@ var specHelper = (function() {
         return params;
     }
 
-    function injector () {
+    function injector() {
         var annotation,
             body = '',
             cleanupBody = '',
@@ -83,7 +87,7 @@ var specHelper = (function() {
 
         annotation = params.join('\',\''); // might need to annotate
 
-        angular.forEach(params, function(name, ix) {
+        angular.forEach(params, function (name, ix) {
             var _name,
                 pathName = name.split('.'),
                 pathLen = pathName.length;
@@ -110,7 +114,7 @@ var specHelper = (function() {
         }
 
         var exp = 'inject(' + fn + ');' +
-                  'afterEach(function(){' + cleanupBody + '});'; // remove from window.
+            'afterEach(function(){' + cleanupBody + '});'; // remove from window.
 
         //Function(exp)(); // the assigned vars will be global. `afterEach` will remove them
         /* jshint evil:true */
@@ -125,8 +129,8 @@ var specHelper = (function() {
         //     eval(specHelper.injector('$log', 'foo'));
     }
 
-    function verifyNoOutstandingHttpRequests () {
-        afterEach(inject(function($httpBackend) {
+    function verifyNoOutstandingHttpRequests() {
+        afterEach(inject(function ($httpBackend) {
             $httpBackend.verifyNoOutstandingExpectation();
             $httpBackend.verifyNoOutstandingRequest();
         }));

@@ -1,9 +1,9 @@
-module.exports = function() {
+module.exports = function () {
     var service = {
         init: init,
         logErrors: logErrors
     };
-    return service;    
+    return service;
 
     function init(err, req, res, next) {
         var status = err.statusCode || 500;

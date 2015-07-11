@@ -1,8 +1,8 @@
-describe('Midway: templates', function() {
+describe('Midway: templates', function () {
     it('should load the template for the saloon view properly',
-        function(done) {
+        function (done) {
             var tester = ngMidwayTester('app');
-            tester.visit('/saloon', function() {
+            tester.visit('/saloon', function () {
                 var current = tester.inject('$route').current;
                 var controller = current.controller;
                 var template = current.templateUrl;
@@ -13,9 +13,9 @@ describe('Midway: templates', function() {
         });
 
     it('should load the template for the cocktails view properly',
-        function(done) {
+        function (done) {
             var tester = ngMidwayTester('app');
-            tester.visit('/', function() {
+            tester.visit('/', function () {
                 var current = tester.inject('$route').current;
                 var controller = current.controller;
                 var template = current.templateUrl;

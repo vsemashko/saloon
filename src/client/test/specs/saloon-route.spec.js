@@ -3,9 +3,10 @@ describe('saloon', function () {
     describe('route', function () {
         var controller;
 
-        beforeEach(function() {
+        beforeEach(function () {
             module('app', specHelper.fakeLogger);
-            specHelper.injector(function($httpBackend, $location, $rootScope, $route) {});
+            specHelper.injector(function ($httpBackend, $location, $rootScope, $route) {
+            });
             $httpBackend.expectGET('app/saloon/saloon.html').respond(200);
         });
 

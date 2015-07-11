@@ -1,6 +1,6 @@
 /*jshint maxlen:120 */
 /*jshint -W079 */
-var mockData = (function() {
+var mockData = (function () {
     return {
         getMockCocktails: getMockCocktails
     };
@@ -65,11 +65,11 @@ var mockData = (function() {
                         "amount": "100 гр"
                     },
                     {
-                        "name":"—ахар",
+                        "name": "—ахар",
                         "amount": "2 ложки"
                     },
                     {
-                        "name":"ћ€та",
+                        "name": "ћ€та",
                         "amount": "10 листьев"
                     }
                 ],

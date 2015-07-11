@@ -8,7 +8,7 @@ describe('ccSidebar directive: ', function () {
 
     beforeEach(module('app.widgets'));
 
-    beforeEach(inject(function($compile, $rootScope) {
+    beforeEach(inject(function ($compile, $rootScope) {
         // The minimum necessary template HTML for this spec.
         // Simulates a menu link that opens and closes a dropdown of menu items
         // The `when-done-animating` attribute is optional (as is the vm's implementation)
@@ -28,7 +28,7 @@ describe('ccSidebar directive: ', function () {
 
         // The spec examines changes to these template parts
         dropdownElement = el.find('.sidebar-dropdown a'); // the link to click
-        innerElement    = el.find('.sidebar-inner');      // container of menu items
+        innerElement = el.find('.sidebar-inner');      // container of menu items
 
         // ng's $compile service resolves nested directives (there are none in this example)
         // and binds the element to the scope (which must be a real ng scope)
@@ -147,51 +147,51 @@ describe('ccSidebar directive: ', function () {
     // What if you don't know about turning JQuery animation durations off ($.fx.off?
     // You have to write async tests
     /*
-    describe('when animating  w/ jQuery fx turned on', function () {
-        beforeEach(function () {
-            // must add to DOM when testing jQuery animation result
-            el.appendTo(document.body);
-        });
+     describe('when animating  w/ jQuery fx turned on', function () {
+     beforeEach(function () {
+     // must add to DOM when testing jQuery animation result
+     el.appendTo(document.body);
+     });
 
-        afterEach(function () {
-            el.remove();
-        });
+     afterEach(function () {
+     el.remove();
+     });
 
-        it('dropdown is visible after opening menu - async', function (done) {
+     it('dropdown is visible after opening menu - async', function (done) {
 
-            dropdownIsVisible(false); // should be hidden when we start
-            clickIt();
+     dropdownIsVisible(false); // should be hidden when we start
+     clickIt();
 
-            setTimeout(function () {
-                try{
-                    console.log('async after open animate');
-                    // should be visible after animation
-                    dropdownIsVisible(true);
-                    done();
-                } catch(e){
-                    done(e);
-                }
-            }, 400); // guess at animation time + a little more
-        });
+     setTimeout(function () {
+     try{
+     console.log('async after open animate');
+     // should be visible after animation
+     dropdownIsVisible(true);
+     done();
+     } catch(e){
+     done(e);
+     }
+     }, 400); // guess at animation time + a little more
+     });
 
-        it('dropdown is hidden after closing menu - async', function (done) {
-            $.fx.off = true;
-            openDropdown();
+     it('dropdown is hidden after closing menu - async', function (done) {
+     $.fx.off = true;
+     openDropdown();
 
-            dropdownIsVisible(true); // should be visible when we start
-            clickIt();
+     dropdownIsVisible(true); // should be visible when we start
+     clickIt();
 
-            setTimeout(function () {
-                try{
-                    console.log('async after close animate');
-                    // should be hidden after animation
-                    dropdownIsVisible(false);
-                    done();
-                } catch(e){
-                    done(e);
-                }
-            }, 400); // guess at animation time; then add a little more
-        });
-    });
-    */
+     setTimeout(function () {
+     try{
+     console.log('async after close animate');
+     // should be hidden after animation
+     dropdownIsVisible(false);
+     done();
+     } catch(e){
+     done(e);
+     }
+     }, 400); // guess at animation time; then add a little more
+     });
+     });
+     */
 });

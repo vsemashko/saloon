@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -6,7 +6,7 @@
         .directive('ccSidebar', ccSidebar);
 
     /* @ngInject */
-    function ccSidebar () {
+    function ccSidebar() {
         // Opens and closes the sidebar menu.
         // Usage:
         //  <div data-cc-sidebar">

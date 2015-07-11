@@ -3,9 +3,10 @@ describe('layout', function () {
     describe('sidebar', function () {
         var controller;
 
-        beforeEach(function() {
+        beforeEach(function () {
             module('app', specHelper.fakeLogger);
-            specHelper.injector(function($controller, $httpBackend, $location, $rootScope, $route) {});
+            specHelper.injector(function ($controller, $httpBackend, $location, $rootScope, $route) {
+            });
         });
 
         beforeEach(function () {

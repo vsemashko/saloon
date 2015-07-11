@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -23,7 +23,7 @@
         }
 
         function getCocktails() {
-            return dataservice.getCocktails().then(function(data) {
+            return dataservice.getCocktails().then(function (data) {
                 vm.cocktails = data;
                 return vm.cocktails;
             });

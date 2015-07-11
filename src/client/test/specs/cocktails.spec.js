@@ -1,13 +1,14 @@
 /* jshint -W117, -W030 */
-describe('app.cocktails', function() {
+describe('app.cocktails', function () {
     var controller;
 
-    beforeEach(function() {
-        module('app', function($provide) {
+    beforeEach(function () {
+        module('app', function ($provide) {
             specHelper.fakeRouteProvider($provide);
             specHelper.fakeLogger($provide);
         });
-        specHelper.injector(function($controller, $q, $rootScope, dataservice) {});            
+        specHelper.injector(function ($controller, $q, $rootScope, dataservice) {
+        });
     });
 
     beforeEach(function () {
@@ -22,17 +23,17 @@ describe('app.cocktails', function() {
             deferred.resolve({test: 123});
             return deferred.promise;
         });
-      
+
         controller = $controller('Cocktails');
         $rootScope.$apply();
     });
 
-    describe('Cocktails controller', function() {
+    describe('Cocktails controller', function () {
         it('should be created successfully', function () {
             expect(controller).to.be.defined;
         });
 
-        describe('after activate', function() {
+        describe('after activate', function () {
             it('should have title of Cocktails recipes', function () {
                 expect(controller.title).to.equal('Cocktails recipes');
             });
