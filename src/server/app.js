@@ -22,7 +22,7 @@ app.use(favicon(__dirname + '/favicon.ico'));
 app.use(cors());                // enable ALL CORS requests
 app.use(errorHandler.init);
 
-var Raspberry = require('./gpio/raspberry');
+var Raspberry = initRaspberryModule();
 exports.raspberry = new Raspberry();
 
 routes = require('./routes/index')(app);
@@ -44,12 +44,14 @@ switch (environment) {
         console.log('** BUILD **');
         console.log('serving from ' + './build/');
         app.use('/', express.static('./build/'));
+
         break;
     default:
         console.log('** DEV **');
         console.log('serving from ' + './src/client/ and ./');
         app.use('/', express.static('./src/client/'));
         app.use('/', express.static('./'));
+
         break;
 }
 
@@ -59,3 +61,17 @@ app.listen(port, function () {
         '\n__dirname = ' + __dirname +
         '\nprocess.cwd = ' + process.cwd());
 });
+
+function initRaspberryModule() {
+    var Raspberry;
+    switch (environment) {
+        case 'stage':
+        case 'build':
+            Raspberry = require('./gpio/raspberry');
+            break;
+        default :
+            Raspberry = require('./gpio/raspberryStub');
+
+    }
+    return Raspberry;
+}
