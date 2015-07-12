@@ -39,6 +39,7 @@ var Raspberry = function () {
                 ' Current liquid flowing = ' + Math.round(flowMillilitres).toString() + ' ml/Sec;' +
                 ' Output liquid flowing = ' + Math.round(totalMillilitres) + ' mL');
             vm.pulseCount = 0;
+            count++;
             if (count === 10) {
                 clearInterval(pourInterval);
                 pump.writeSync(0);
@@ -58,6 +59,7 @@ var Raspberry = function () {
     function cleanupGPIO() {
         pump.unexport();
         flowSensor.unexport();
+        console.log('GPIO is cleaned');
     }
 
 };
