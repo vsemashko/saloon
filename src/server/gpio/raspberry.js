@@ -5,10 +5,12 @@ var eventEmitter = require('events').EventEmitter,
 
 var Raspberry = function () {
     var pump = new GPIO(3, 'out'),
-        flowSensor = new GPIO(23, 'in', 'falling');
+        flowSensor = new GPIO(23, 'in', 'falling'),
+        CALIBRATION_FACTOR = 4.5;
 
     var vm = this;
     vm.pour = pour;
+    vm.pulseCount = 0;
 
     process.on('exit', cleanupGPIO);
 
@@ -21,16 +23,36 @@ var Raspberry = function () {
     }
 
     function pour() {
+        var count = 0;
+
+        var flowRate = 0.0,
+            flowMillilitres = 0,
+            totalMillilitres = 0;
+
         var deferred = Q.defer();
         pump.writeSync(1);
-        setTimeout(function () {
-            pump.writeSync(0);
-            deferred.resolve();
-        }, 3000);
+        var pourInterval = setInterval(function () {
+            flowRate = vm.pulseCount / CALIBRATION_FACTOR;
+            flowMillilitres = (flowRate / 60) * 100;
+            totalMillilitres += flowMillilitres;
+            console.log('Flow rate = ' + Math.round(flowRate).toString() + ' L/min;' +
+                ' Current liquid flowing = ' + Math.round(flowMillilitres).toString() + ' ml/Sec;' +
+                ' Output liquid flowing = ' + Math.round(totalMillilitres) + ' mL');
+            vm.pulseCount = 0;
+            if (count === 10) {
+                clearInterval(pourInterval);
+                pump.writeSync(0);
+                deferred.resolve();
+            }
+
+        }, 1000);
         return deferred.promise;
     }
 
     function processFlowChanges(err, value) {
+        if (value) {
+            vm.pulseCount++;
+        }
         console.log(value);
     }
 
