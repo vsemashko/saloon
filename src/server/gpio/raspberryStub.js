@@ -4,8 +4,11 @@ var eventEmitter = require('events').EventEmitter,
 
 var Raspberry = function () {
     var vm = this;
+    vm.dataService = require('../app.js').dataService;
+
     vm.pour = pour;
     vm.pulseCount = 0;
+    vm.pumps = [];
 
     process.on('exit', cleanupGPIO);
 
@@ -14,6 +17,10 @@ var Raspberry = function () {
     //////////////////
 
     function activate() {
+        var pumpsConfig = vm.dataService.getPumpConfiguration()[0].data;
+        for (var i = 0, length = pumpsConfig.length; i < length; i++) {
+            vm.pumps.push(pumpsConfig[i]);
+        }
     }
 
     function pour(pump, amount) {

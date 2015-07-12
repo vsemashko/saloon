@@ -1,0 +1,20 @@
+[
+  {
+    "data": [
+      {
+        "id": 1,
+        "pumpId": 3,
+        "measurerId": 23,
+        "liquid": "Виски",
+        "liquidId": "Whiskey"
+      },
+      {
+        "id": 2,
+        "pumpId": 4,
+        "measurerId": 24,
+        "liquid": "Кола",
+        "liquidId": "Cola"
+      }
+    ]
+  }
+]

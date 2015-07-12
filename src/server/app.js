@@ -22,6 +22,9 @@ app.use(favicon(__dirname + '/favicon.ico'));
 app.use(cors());                // enable ALL CORS requests
 app.use(errorHandler.init);
 
+var DataService = require('./dataservice/localDataService');
+exports.dataService = new DataService();
+
 var Raspberry = initRaspberryModule();
 exports.raspberry = new Raspberry();
 

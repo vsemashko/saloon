@@ -13,6 +13,7 @@
         var service = {
             getCocktails: getCocktails,
             prepareCocktail: prepareCocktail,
+            getPumpConfig: getPumpConfig,
             ready: ready
         };
 
@@ -27,9 +28,17 @@
         }
 
         function prepareCocktail() {
-            return $resource('/pour', {}).get({}).$promise.then(pourCocktailComplete).catch(handleException);
+            return $resource('/api/pour', {}).get({}).$promise.then(pourCocktailComplete).catch(handleException);
             function pourCocktailComplete(data) {
                 return data;
+            }
+        }
+
+        function getPumpConfig() {
+            var PumpConfig = $resource('/api/pump-config', {});
+            return PumpConfig.query({}).$promise.then(getPumpsConfigComplete).catch(handleException);
+            function getPumpsConfigComplete(data, status, headers, config) {
+                return data[0].data;
             }
         }
 
