@@ -4,7 +4,8 @@ var eventEmitter = require('events').EventEmitter,
     GPIO = require('onoff').Gpio;
 
 var Raspberry = function () {
-    var pump = new GPIO(3, 'out'),
+    var pump1 = new GPIO(3, 'out'),
+        pump2 = new GPIO(4, 'out'),
         flowSensor = new GPIO(23, 'in', 'falling'),
         CALIBRATION_FACTOR = 4.5;
 
@@ -22,13 +23,14 @@ var Raspberry = function () {
         flowSensor.watch(processFlowChanges);
     }
 
-    function pour(amount) {
+    function pour(pump, amount) {
+        var activePump = getPump(pump);
         amount = amount ? amount : 100;
         var flowRate = 0.0,
             flowMillilitres = 0,
             totalMillilitres = 0,
             deferred = Q.defer();
-        pump.writeSync(1);
+        activePump.writeSync(1);
         var pourInterval = setInterval(function () {
             flowRate = vm.pulseCount / CALIBRATION_FACTOR;
             flowMillilitres = (flowRate / 60) * 100;
@@ -39,12 +41,27 @@ var Raspberry = function () {
             vm.pulseCount = 0;
             if (amount <= totalMillilitres) {
                 clearInterval(pourInterval);
-                pump.writeSync(0);
+                activePump.writeSync(0);
                 deferred.resolve();
             }
 
         }, 1000);
         return deferred.promise;
+    }
+
+    function getPump(pump) {
+        var activePump;
+        switch (pump) {
+            case 1:
+                activePump = pump1;
+                break;
+            case 2:
+                activePump = pump2;
+                break;
+            default :
+                activePump = pump1;
+        }
+        return activePump;
     }
 
     function processFlowChanges(err, value) {
@@ -54,7 +71,7 @@ var Raspberry = function () {
     }
 
     function cleanupGPIO() {
-        pump.unexport();
+        pump1.unexport();
         flowSensor.unexport();
         console.log('GPIO is cleaned');
     }

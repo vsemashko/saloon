@@ -11,8 +11,10 @@ module.exports = function (app) {
     }
 
     function pourLiquid(req, res, next) {
-        raspberry.pour().then(function () {
-            res.send({result: 'Liquid is ready!'});
+        raspberry.pour(1, 100).then(function () {
+            raspberry.pour(2, 100).then(function () {
+                res.send({result: 'Liquid is ready!'});
+            });
         });
     }
 };
