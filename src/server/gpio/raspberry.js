@@ -22,14 +22,12 @@ var Raspberry = function () {
         flowSensor.watch(processFlowChanges);
     }
 
-    function pour() {
-        var count = 0;
-
+    function pour(amount) {
+        amount = amount ? amount : 100;
         var flowRate = 0.0,
             flowMillilitres = 0,
-            totalMillilitres = 0;
-
-        var deferred = Q.defer();
+            totalMillilitres = 0,
+            deferred = Q.defer();
         pump.writeSync(1);
         var pourInterval = setInterval(function () {
             flowRate = vm.pulseCount / CALIBRATION_FACTOR;
@@ -39,8 +37,7 @@ var Raspberry = function () {
                 ' Current liquid flowing = ' + Math.round(flowMillilitres).toString() + ' ml/Sec;' +
                 ' Output liquid flowing = ' + Math.round(totalMillilitres) + ' mL');
             vm.pulseCount = 0;
-            count++;
-            if (count === 10) {
+            if (amount <= totalMillilitres) {
                 clearInterval(pourInterval);
                 pump.writeSync(0);
                 deferred.resolve();
