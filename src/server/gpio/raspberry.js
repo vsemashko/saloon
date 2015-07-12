@@ -1,54 +1,42 @@
-var gpio = require('rpi-gpio');
-var eventEmitter = require('events').EventEmitter;
-var util = require('util');
-var Q = require('q');
+var eventEmitter = require('events').EventEmitter,
+    util = require('util'),
+    Q = require('q'),
+    GPIO = require('onoff').Gpio;
 
 var Raspberry = function () {
-    var PUMP_PIN = 3;
-    var WATER_FLOW_SENSOR_PIN = 23;
+    var pump = new GPIO(3, 'out'),
+        flowSensor = new GPIO(23, 'in', 'falling');
 
     var vm = this;
     vm.pour = pour;
 
     process.on('exit', cleanupGPIO);
-    gpio.on('change', processFlowChanges);
 
     activate();
 
     //////////////////
 
     function activate() {
-        gpio.setMode(gpio.MODE_BCM);
-        gpio.setup(PUMP_PIN, gpio.DIR_OUT, callback);
-        gpio.setup(WATER_FLOW_SENSOR_PIN, gpio.DIR_IN, callback);
-    }
-
-    function callback(data) {
-        console.log(data);
+        flowSensor.watch(processFlowChanges);
     }
 
     function pour() {
         var deferred = Q.defer();
-        gpio.write(PUMP_PIN, 1, function (response) {
-            console.log(response);
-        });
+        pump.writeSync(1);
         setTimeout(function () {
-            gpio.write(PUMP_PIN, 0, function (response) {
-                console.log(response);
-            });
+            pump.writeSync(0);
             deferred.resolve();
         }, 3000);
         return deferred.promise;
     }
 
-    function processFlowChanges(channel, value) {
-        console.log('Channel ' + channel + ' value is now ' + value);
+    function processFlowChanges(err, value) {
+        console.log(value);
     }
 
     function cleanupGPIO() {
-        gpio.destroy(function () {
-            console.log('GPIO cleanup finished');
-        });
+        led.unexport();
+        flowSensor.unexport();
     }
 
 };
