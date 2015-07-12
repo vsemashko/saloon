@@ -8,11 +8,11 @@ var LocalDataService = function () {
     //////////////////
 
     function getCocktails() {
-        return vm.jsonfileservice.getJsonFromFile('./../../data/coctails.json');
+        return vm.jsonfileservice.getJsonFromFile('/../../data/coctails.json');
     }
 
     function getPumpConfiguration(req, res, next) {
-        return vm.jsonfileservice.getJsonFromFile('./../../data/pumpConfig.json');
+        return vm.jsonfileservice.getJsonFromFile('/../../data/pumpConfig.json');
     }
 
 };
