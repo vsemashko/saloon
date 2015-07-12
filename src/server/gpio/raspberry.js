@@ -53,11 +53,10 @@ var Raspberry = function () {
         if (value) {
             vm.pulseCount++;
         }
-        console.log(value);
     }
 
     function cleanupGPIO() {
-        led.unexport();
+        pump.unexport();
         flowSensor.unexport();
     }
 
