@@ -47,7 +47,6 @@ switch (environment) {
         console.log('** BUILD **');
         console.log('serving from ' + './build/');
         app.use('/', express.static('./build/'));
-
         break;
     default:
         console.log('** DEV **');
@@ -68,13 +67,11 @@ app.listen(port, function () {
 function initRaspberryModule() {
     var Raspberry;
     switch (environment) {
-        case 'stage':
-        case 'build':
-            Raspberry = require('./gpio/raspberry');
+        case 'test':
+            Raspberry = require('./gpio/raspberryStub');
             break;
         default :
-            Raspberry = require('./gpio/raspberryStub');
-
+            Raspberry = require('./gpio/raspberry');
     }
     return Raspberry;
 }
