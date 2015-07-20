@@ -47,18 +47,18 @@ var Raspberry = function () {
     }
 
     function pour(liquid, amount) {
-        var activePump = getPump(liquid);
         amount = amount ? amount : 100;
-        var flowMeasurer = initFlowMeasurer(activePump);
-        var deferred = Q.defer();
+        var activePump = getPump(liquid),
+            flowMeasurer = initFlowMeasurer(activePump),
+            deferred = Q.defer(),
+            intervalCount = 0;
         activePump.gpio.writeSync(1);
-        var count = 0;
         var pourInterval = setInterval(function () {
             updateFlowMeasurer(flowMeasurer);
             printFlowMeasurements(flowMeasurer);
             vm.pulseCount = 0;
-            count++;
-            if (liquidIsPoured(amount, flowMeasurer) || count > 5) {
+            intervalCount++;
+            if (liquidIsPoured(amount, flowMeasurer) || intervalCount > 10) {
                 stopPouring(pourInterval, activePump);
                 deferred.resolve();
             }
@@ -112,9 +112,8 @@ var Raspberry = function () {
     }
 
     function processFlowChanges(err, value) {
-        console.log('Flow value = ' + value + ' pulse count =  ' + vm.pulseCount);
         if (value) {
-            vm.pulseCount++;
+            vm.pulseCount = vm.pulseCount + value;
         }
     }
 
