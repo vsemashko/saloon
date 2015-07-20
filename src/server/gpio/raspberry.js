@@ -35,20 +35,32 @@ var Raspberry = function () {
         pump.gpio = new GPIO(config.id, 'out');
         pump.flowSensor = new GPIO(config.measurerId, 'in', 'falling');
         pump.liquid = config.liquidId;
+        logPumpConfig(config);
         return pump;
+    }
+
+    function logPumpConfig(config) {
+        console.log('Init pump');
+        console.log('Pump id = ' + config.id);
+        console.log('Liquid measurer id = ' + config.measurerId);
+        console.log('Liquid = ' + config.liquidId);
     }
 
     function pour(liquid, amount) {
         var activePump = getPump(liquid);
         amount = amount ? amount : 100;
+        console.log(activePump);
+        console.log('Liquid amount = ' + liquid);
         var flowMeasurer = initFlowMeasurer(activePump);
         var deferred = Q.defer();
         activePump.gpio.writeSync(1);
+        var count = 0;
         var pourInterval = setInterval(function () {
             updateFlowMeasurer(flowMeasurer);
             printFlowMeasurements(flowMeasurer);
             vm.pulseCount = 0;
-            if (liquidIsPoured(amount, flowMeasurer)) {
+            count++;
+            if (liquidIsPoured(amount, flowMeasurer) || count > 5) {
                 stopPouring(pourInterval, activePump);
                 deferred.resolve();
             }
