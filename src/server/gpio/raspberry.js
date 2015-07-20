@@ -49,8 +49,6 @@ var Raspberry = function () {
     function pour(liquid, amount) {
         var activePump = getPump(liquid);
         amount = amount ? amount : 100;
-        console.log(activePump);
-        console.log('Liquid = ' + liquid + '; amount = ' + amount);
         var flowMeasurer = initFlowMeasurer(activePump);
         var deferred = Q.defer();
         activePump.gpio.writeSync(1);
@@ -114,6 +112,7 @@ var Raspberry = function () {
     }
 
     function processFlowChanges(err, value) {
+        console.log('Flow value = ' + value + ' pulse count =  ' + vm.pulseCount);
         if (value) {
             vm.pulseCount++;
         }
