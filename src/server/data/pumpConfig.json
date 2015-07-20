@@ -3,7 +3,7 @@
     "data": [
       {
         "id": 1,
-        "pumpId": 3,
+        "pumpId": 17,
         "measurerId": 23,
         "liquid": "Виски",
         "liquidId": "Whiskey"
