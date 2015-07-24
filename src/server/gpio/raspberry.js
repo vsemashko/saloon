@@ -58,7 +58,7 @@ var Raspberry = function () {
             printFlowMeasurements(flowMeasurer);
             vm.pulseCount = 0;
             intervalCount++;
-            if (liquidIsPoured(amount, flowMeasurer) || intervalCount > 10) {
+            if (intervalCount > amount) {
                 stopPouring(pourInterval, activePump);
                 deferred.resolve();
             }
