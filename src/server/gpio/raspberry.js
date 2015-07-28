@@ -71,9 +71,9 @@ var Raspberry = function () {
         clearInterval(pourInterval);
         activePump.gpio.writeSync(0);
         activePump.flowSensor.unwatchAll();
-        activePump.flowSensor.setDirection('out');
+        /*activePump.flowSensor.setDirection('out');
         activePump.flowSensor.writeSync(0);
-        activePump.flowSensor.setDirection('in');
+         activePump.flowSensor.setDirection('in');*/
     }
 
     function updateFlowMeasurer(flowMeasurer) {
