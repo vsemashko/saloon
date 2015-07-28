@@ -70,7 +70,7 @@ var Raspberry = function () {
     function stopPouring(pourInterval, activePump) {
         clearInterval(pourInterval);
         activePump.gpio.writeSync(0);
-        activePump.flowSensor.unwatch();
+        activePump.flowSensor.unwatchAll();
     }
 
     function updateFlowMeasurer(flowMeasurer) {
