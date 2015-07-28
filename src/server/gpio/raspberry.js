@@ -15,7 +15,7 @@ var Raspberry = function () {
 
     process.on('exit', cleanupGPIO);
 
-    activate();
+    //activate();
 
     //////////////////
 
@@ -47,6 +47,7 @@ var Raspberry = function () {
     }
 
     function pour(liquid, amount) {
+        activate();
         amount = amount ? amount : 100;
         var activePump = getPump(liquid),
             flowMeasurer = initFlowMeasurer(activePump),
@@ -60,6 +61,7 @@ var Raspberry = function () {
             intervalCount++;
             if (intervalCount > amount) {
                 stopPouring(pourInterval, activePump);
+                cleanupGPIO();
                 deferred.resolve();
             }
 
