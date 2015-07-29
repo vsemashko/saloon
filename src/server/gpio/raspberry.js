@@ -71,9 +71,6 @@ var Raspberry = function () {
         clearInterval(pourInterval);
         activePump.gpio.writeSync(0);
         activePump.flowSensor.unwatchAll();
-        /*activePump.flowSensor.setDirection('out');
-        activePump.flowSensor.writeSync(0);
-         activePump.flowSensor.setDirection('in');*/
     }
 
     function updateFlowMeasurer(flowMeasurer) {
@@ -116,7 +113,8 @@ var Raspberry = function () {
 
     function processFlowChanges(err, value) {
         if (value) {
-            vm.pulseCount++;
+            console.log('Flow changes, value = ' + value);
+            vm.pulseCount = vm.pulseCount + value;
         }
     }
 
