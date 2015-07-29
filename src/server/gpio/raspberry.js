@@ -112,10 +112,12 @@ var Raspberry = function () {
     }
 
     function processFlowChanges(err, value) {
-        if (value) {
+        vm.pulseCount++;
+        //TODO check correct flow changes processing
+        /*if (value) {
             console.log('Flow changes, value = ' + value);
             vm.pulseCount = vm.pulseCount + value;
-        }
+         }*/
     }
 
     function cleanupGPIO() {
