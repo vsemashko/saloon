@@ -4,7 +4,7 @@ var eventEmitter = require('events').EventEmitter,
     GPIO = require('onoff').Gpio;
 
 var Raspberry = function () {
-    var CALIBRATION_FACTOR = 4.5;
+    var CALIBRATION_FACTOR = 6;
 
     var vm = this;
     vm.dataService = require('../app.js').dataService;
@@ -58,12 +58,12 @@ var Raspberry = function () {
             printFlowMeasurements(flowMeasurer);
             vm.pulseCount = 0;
             intervalCount++;
-            if (intervalCount > amount) {
+            if (liquidIsPoured(amount, flowMeasurer) || liquidIsEnded(intervalCount, flowMeasurer)) {
                 stopPouring(pourInterval, activePump);
                 deferred.resolve();
             }
 
-        }, 1000);
+        }, 100);
         return deferred.promise;
     }
 
@@ -81,6 +81,10 @@ var Raspberry = function () {
 
     function liquidIsPoured(amount, flowMeasurer) {
         return amount <= flowMeasurer.totalMillilitres;
+    }
+
+    function liquidIsEnded(intervalCount) {
+        return intervalCount > 30 && flowMeasurer.totalMillilitres < 10;
     }
 
     function printFlowMeasurements(flowMeasurer) {
