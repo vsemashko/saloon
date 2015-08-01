@@ -17,7 +17,7 @@ var Routes = function (app) {
 
     function pourLiquid(req, res, next) {
         vm.raspberry.pour('Whiskey', parseInt(req.query.amount)).then(function () {
-            vm.raspberry.pour('Cola', req.query.amount).then(function () {
+            vm.raspberry.pour('Cola', parseInt(req.query.amount)).then(function () {
                 res.send({result: 'Liquid is ready!'});
             });
         });
