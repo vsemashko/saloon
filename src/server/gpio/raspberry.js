@@ -83,7 +83,7 @@ var Raspberry = function () {
         return amount <= flowMeasurer.totalMillilitres;
     }
 
-    function liquidIsEnded(intervalCount) {
+    function liquidIsEnded(intervalCount, flowMeasurer) {
         return intervalCount > 30 && flowMeasurer.totalMillilitres < 10;
     }
 
