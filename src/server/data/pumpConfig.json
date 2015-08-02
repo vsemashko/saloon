@@ -5,14 +5,14 @@
         "id": 1,
         "pumpId": 17,
         "measurerId": 24,
-        "liquid": "Виски",
+        "liquid": "Р’РёСЃРєРё",
         "liquidId": "Whiskey"
       },
       {
         "id": 2,
         "pumpId": 4,
         "measurerId": 23,
-        "liquid": "Кола",
+        "liquid": "РљРѕР»Р°",
         "liquidId": "Cola"
       }
     ]

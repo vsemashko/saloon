@@ -84,6 +84,7 @@ var Raspberry = function () {
     }
 
     function liquidIsEnded(intervalCount, flowMeasurer) {
+        //TODO add correct liquid ended processing
         return intervalCount > 30 && flowMeasurer.totalMillilitres < 10;
     }
 

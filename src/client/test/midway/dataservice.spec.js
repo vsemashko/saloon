@@ -24,11 +24,11 @@ describe('Midway: dataservice requests', function () {
             // $rootScope.$apply();
         });
 
-        it('should contain Áåëûé Ðóññêèé', function (done) {
+        it('should contain Ð‘ÐµÐ»Ñ‹Ð¹ Ð ÑƒÑÑÐºÐ¸Ð¹', function (done) {
             dataservice.getCocktails().then(function (data) {
                 expect(data).not.to.equal(null);
                 var hasWhiteRussian = data.some(function isPrime(element, index, array) {
-                    return element.name.indexOf('Áåëûé Ðóññêèé') >= 0;
+                    return element.name.indexOf('Ð‘ÐµÐ»Ñ‹Ð¹ Ð ÑƒÑÑÐºÐ¸Ð¹') >= 0;
                 });
                 expect(hasWhiteRussian).to.be.true;
                 done();
