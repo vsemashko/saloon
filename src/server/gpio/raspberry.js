@@ -47,18 +47,16 @@ var Raspberry = function () {
     }
 
     function pour(liquid, amount) {
-        amount = amount ? amount : 100;
+        amount = amount ? amount : 50;
         var activePump = getPump(liquid),
             flowMeasurer = initFlowMeasurer(activePump),
-            deferred = Q.defer(),
-            intervalCount = 0;
+            deferred = Q.defer();
         activePump.gpio.writeSync(1);
         var pourInterval = setInterval(function () {
             updateFlowMeasurer(flowMeasurer);
             printFlowMeasurements(flowMeasurer);
             vm.pulseCount = 0;
-            intervalCount++;
-            if (liquidIsPoured(amount, flowMeasurer) || liquidIsEnded(intervalCount, flowMeasurer)) {
+            if (liquidIsPoured(amount, flowMeasurer) || liquidIsEnded(flowMeasurer)) {
                 stopPouring(pourInterval, activePump);
                 deferred.resolve();
             }
@@ -83,9 +81,13 @@ var Raspberry = function () {
         return amount <= flowMeasurer.totalMillilitres;
     }
 
-    function liquidIsEnded(intervalCount, flowMeasurer) {
-        //TODO add correct liquid ended processing
-        return intervalCount > 30 && flowMeasurer.totalMillilitres < 10;
+    function liquidIsEnded(flowMeasurer) {
+        if (flowMeasurer.flowMillilitres === 0) {
+            flowMeasurer.emptyFlowCount++;
+        } else {
+            flowMeasurer.emptyFlowCount = 0;
+        }
+        return flowMeasurer.emptyFlowCount >= 5
     }
 
     function printFlowMeasurements(flowMeasurer) {
@@ -112,7 +114,8 @@ var Raspberry = function () {
         return {
             'flowRate': 0.0,
             'flowMillilitres': 0,
-            'totalMillilitres': 0
+            'totalMillilitres': 0,
+            'emptyFlowCount': 0
         };
     }
 
@@ -120,8 +123,8 @@ var Raspberry = function () {
         vm.pulseCount++;
         //TODO check correct flow changes processing
         /*if (value) {
-            console.log('Flow changes, value = ' + value);
-            vm.pulseCount = vm.pulseCount + value;
+         console.log('Flow changes, value = ' + value);
+         vm.pulseCount = vm.pulseCount + value;
          }*/
     }
 
