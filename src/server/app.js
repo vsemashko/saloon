@@ -28,7 +28,7 @@ exports.dataService = new DataService();
 var Raspberry = initRaspberryModule();
 exports.raspberry = new Raspberry();
 
-routes = require('./routes/index')(app);
+routes = require('./routes/routes')(app);
 
 console.log('About to crank up node');
 console.log('PORT=' + port);

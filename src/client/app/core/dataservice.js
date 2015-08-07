@@ -28,7 +28,7 @@
         }
 
         function prepareCocktail() {
-            return $resource('/api/pour', {}).get({amount: 30}).$promise.then(pourCocktailComplete).catch(handleException);
+            return $resource('/api/pour', {}).get({amount: 50}).$promise.then(pourCocktailComplete).catch(handleException);
             function pourCocktailComplete(data) {
                 return data;
             }
