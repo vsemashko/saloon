@@ -49,12 +49,12 @@ var Raspberry = function () {
     function pour(liquid, amount) {
         amount = amount ? amount : 50;
         var activePump = getPump(liquid),
-            flowMeasurer = initFlowMeasurer(activePump),
             deferred = Q.defer();
         if (!activePump) {
             deferred.resolve();
             return deferred.promise;
         }
+        var flowMeasurer = initFlowMeasurer(activePump);
         activePump.gpio.writeSync(1);
         var pourInterval = setInterval(function () {
             updateFlowMeasurer(flowMeasurer);
