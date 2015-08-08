@@ -5,6 +5,7 @@ var eventEmitter = require('events').EventEmitter,
 
 var Raspberry = function () {
     var CALIBRATION_FACTOR = 6;
+    var EMPTY_ATTEMPTS_COUNT = 50;
 
     var vm = this;
     vm.dataService = require('../app.js').dataService;
@@ -91,7 +92,7 @@ var Raspberry = function () {
         } else {
             flowMeasurer.emptyFlowCount = 0;
         }
-        return flowMeasurer.emptyFlowCount >= 5
+        return flowMeasurer.emptyFlowCount >= EMPTY_ATTEMPTS_COUNT;
     }
 
     function printFlowMeasurements(flowMeasurer) {
