@@ -10,6 +10,7 @@
          */
         'app.cocktails',
         'app.saloon',
+        'app.pumps',
         'app.layout'
     ]);
 

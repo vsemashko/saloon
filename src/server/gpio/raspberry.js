@@ -35,7 +35,7 @@ var Raspberry = function () {
         var pump = {};
         pump.gpio = new GPIO(config.pumpId, 'out');
         pump.flowSensor = new GPIO(config.measurerId, 'in', 'falling');
-        pump.liquid = config.liquidId;
+        pump.liquid = config.liquid.id;
         logPumpConfig(config);
         return pump;
     }
@@ -44,7 +44,7 @@ var Raspberry = function () {
         console.log('Init pump');
         console.log('Pump id = ' + config.pumpId);
         console.log('Liquid measurer id = ' + config.measurerId);
-        console.log('Liquid = ' + config.liquidId);
+        console.log('Liquid = ' + config.liquid.id);
     }
 
     function pour(liquid, amount) {

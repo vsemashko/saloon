@@ -1,0 +1,42 @@
+﻿<section id="dashboard-view" class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget wblue">
+                        <div class="widget-head">
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="widget-content text-center text-info">
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Pump id</th>
+                                    <th>Measurer id</th>
+                                    <th>Liquid</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="pump in vm.pumps track by $index">
+                                    <td>{{pump.pumpId}}</td>
+                                    <td>{{pump.measurerId}}</td>
+                                    <td>
+                                        <select ng-init="vm.init(pump)"
+                                                ng-model="pump.liquid"
+                                                ng-options="item as item.name for item in vm.liquids">
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default" ng-click="vm.savePumps()">Save pumps configuration</button>
+        </div>
+    </section>
+</section>

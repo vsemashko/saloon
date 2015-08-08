@@ -1,0 +1,42 @@
+[
+  {
+    "data": [
+      {
+        "id": "Whiskey",
+        "name": "Виски"
+      },
+      {
+        "id": "Rum",
+        "name": "Ром"
+      },
+      {
+        "id": "Cola",
+        "name": "Кола"
+      },
+      {
+        "id": "Vodka",
+        "name": "Водка"
+      },
+      {
+        "id": "Kahlua",
+        "name": "Калуа"
+      },
+      {
+        "id": "Cream",
+        "name": "Сливки"
+      },
+      {
+        "id": "Rum_White",
+        "name": "Ром Светлый"
+      },
+      {
+        "id": "Sparkling_water",
+        "name": "Содовая"
+      },
+      {
+        "id": "Lime_juice",
+        "name": "Сок лайма"
+      }
+    ]
+  }
+]

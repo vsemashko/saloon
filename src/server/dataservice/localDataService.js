@@ -3,6 +3,7 @@ var LocalDataService = function () {
     var vm = this;
     vm.jsonfileservice = require('./utils/jsonfileservice')();
     vm.getCocktails = getCocktails;
+    vm.getLiquids = getLiquids;
     vm.getPumpConfiguration = getPumpConfiguration;
     vm.savePumpConfiguration = savePumpConfiguration;
 
@@ -10,6 +11,10 @@ var LocalDataService = function () {
 
     function getCocktails() {
         return vm.jsonfileservice.getJsonFromFile('/../../data/cocktails.json');
+    }
+
+    function getLiquids() {
+        return vm.jsonfileservice.getJsonFromFile('/../../data/liquids.json');
     }
 
     function getPumpConfiguration(req, res, next) {

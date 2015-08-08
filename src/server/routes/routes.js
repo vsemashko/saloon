@@ -4,12 +4,17 @@ var Routes = function (app) {
     vm.raspberry = require('../app.js').raspberry;
 
     app.get('/api/cocktails', getCocktails);
+    app.get('/api/liquids', getLiquids);
     app.get('/api/pump-config', getPumpConfiguration);
     app.post('/api/pump-config', savePumpConfiguration);
     app.post('/api/pour', pourLiquid);
 
     function getCocktails(req, res, next) {
         res.send(vm.dataService.getCocktails());
+    }
+
+    function getLiquids(req, res, next) {
+        res.send(vm.dataService.getLiquids());
     }
 
     function getPumpConfiguration(req, res, next) {
