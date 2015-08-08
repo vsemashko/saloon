@@ -8,13 +8,16 @@
         /*jshint validthis: true */
         var vm = this;
         vm.cocktails = [];
+        vm.selectedCocktail = {};
         vm.title = 'Saloon';
         vm.prepareCocktail = prepareCocktail;
 
         activate();
 
         function activate() {
-            return getCocktails();
+            return getCocktails().then(function (cocktails) {
+                vm.selectedCocktail = vm.cocktails[0];
+            });
         }
 
         function getCocktails() {
@@ -25,7 +28,7 @@
         }
 
         function prepareCocktail() {
-            return dataservice.prepareCocktail().then(function (data) {
+            return dataservice.prepareCocktail(vm.selectedCocktail).then(function (data) {
                 logger.success('Cocktail is served!');
             });
         }

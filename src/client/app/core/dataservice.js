@@ -27,8 +27,8 @@
             }
         }
 
-        function prepareCocktail() {
-            return $resource('/api/pour', {}).get({amount: 50}).$promise.then(pourCocktailComplete).catch(handleException);
+        function prepareCocktail(cocktail) {
+            return getPourResource().pour(cocktail.bar_ingredients).$promise.then(pourCocktailComplete).catch(handleException);
             function pourCocktailComplete(data) {
                 return data;
             }
@@ -40,6 +40,19 @@
             function getPumpsConfigComplete(data, status, headers, config) {
                 return data[0].data;
             }
+        }
+
+        function getPourResource() {
+            var actions = {
+                pour: {
+                    url: '/api/pour',
+                    method: "POST",
+                    data: {
+                        steps: "@steps"
+                    }
+                }
+            };
+            return $resource('/api/pour', {}, actions);
         }
 
         function prime() {
