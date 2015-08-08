@@ -4,6 +4,7 @@ var LocalDataService = function () {
     vm.jsonfileservice = require('./utils/jsonfileservice')();
     vm.getCocktails = getCocktails;
     vm.getPumpConfiguration = getPumpConfiguration;
+    vm.savePumpConfiguration = savePumpConfiguration;
 
     //////////////////
 
@@ -12,7 +13,15 @@ var LocalDataService = function () {
     }
 
     function getPumpConfiguration(req, res, next) {
-        return vm.jsonfileservice.getJsonFromFile('/../../data/pumpConfig.json');
+        var json = vm.jsonfileservice.getJsonFromFile('/../../data/pumpConfig_custom.json');
+        if (!json) {
+            json = vm.jsonfileservice.getJsonFromFile('/../../data/pumpConfig.json');
+        }
+        return json;
+    }
+
+    function savePumpConfiguration(config) {
+        vm.jsonfileservice.saveJsonToFile('/../../data/pumpConfig_custom.json', config);
     }
 
 };
