@@ -12,12 +12,14 @@
                                 <thead>
                                 <tr>
                                     <th>Pump id</th>
-                                    <th>Measurer id</th>
+                                    <th>Pump pin</th>
+                                    <th>Measurer pin</th>
                                     <th>Liquid</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr data-ng-repeat="pump in vm.pumps track by $index">
+                                    <td>{{pump.id}}</td>
                                     <td>{{pump.pumpId}}</td>
                                     <td>{{pump.measurerId}}</td>
                                     <td>
