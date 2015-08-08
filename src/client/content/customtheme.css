@@ -785,6 +785,7 @@ form label {
     margin-right: 0;
     width: auto;
     background: #fff;
+    min-height: 500px;
 }
 
 .mainbar .container {
