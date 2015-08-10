@@ -15,8 +15,21 @@
         activate();
 
         function activate() {
-            return getCocktails().then(function (cocktails) {
+            return getCocktails().then(function(data) {
                 vm.selectedCocktail = vm.cocktails[0];
+                var commands = [];
+                _.each(data, function(item) {
+                    commands[item.name] = function() {
+                        vm.selectedCocktail = item;
+                        prepareCocktail();
+                    }
+                });
+                // Add our commands to annyang
+                annyang.addCommands(commands);
+                // Start listening.
+                annyang.debug(true);
+                annyang.setLanguage("ru");
+                annyang.start();
             });
         }
 
