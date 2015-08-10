@@ -1,9 +1,6 @@
 ﻿<div data-ng-controller="Shell as vm">
-    <div id="splash-page" data-ng-show="vm.showSplash" class="dissolve-animation">
+    <div id="splash-page" data-ng-show="vm.showSplash" ng-click="vm.hideSplash()">
         <div class="page-splash">
-            <div class="page-splash-message">
-                Saloon
-            </div>
         </div>
     </div>
 

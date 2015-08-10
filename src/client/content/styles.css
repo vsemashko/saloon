@@ -237,18 +237,9 @@ small {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #333;
-    opacity: .9;
+    background: #333 url("images/splash-screen.png") no-repeat center;
     pointer-events: auto;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transition: opacity 0.3s linear;
-    -moz-transition: opacity 0.3s linear;
-    -o-transition: opacity 0.3s linear;
-    transition: opacity 0.3s linear;
+    background-size:cover
 }
 
 .page-splash-message {
@@ -635,6 +626,10 @@ a {
         font-size: 1.5em !important;
         line-height: 1.2em !important;
     }
+}
+
+[ng-click] {
+    cursor: pointer;
 }
 
 /*#endregion */
