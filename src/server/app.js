@@ -10,6 +10,11 @@ var errorHandler = require('./routes/utils/errorHandler')();
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var port = process.env.PORT || 7200;
+var https = require('https');
+var fs = require('fs');
+var privateKey  = fs.readFileSync('src/server/sslcert/server.key', 'utf8');
+var certificate = fs.readFileSync('src/server/sslcert/server.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 var routes;
 
 var environment = process.env.NODE_ENV;
@@ -57,7 +62,9 @@ switch (environment) {
         break;
 }
 
-app.listen(port, function () {
+var httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(port, function () {
     console.log('Express server listening on port ' + port);
     console.log('env = ' + app.get('env') +
         '\n__dirname = ' + __dirname +

@@ -72,8 +72,8 @@ body {
     line-height: 23px;
     color: #666;
     background: #111;
-    padding-top: 45px;
     -webkit-font-smoothing: antialiased;
+    overflow: hidden;
 }
 
 body .container {

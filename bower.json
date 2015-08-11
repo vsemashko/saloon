@@ -30,6 +30,7 @@
     "font-awesome": "~4.0.3",
     "extras.angular.plus": "~0.9.0",
     "lodash": "~3.10.1",
-    "annyang": "latest"
+    "annyang": "latest",
+    "pixi.js": "latest"
   }
 }
