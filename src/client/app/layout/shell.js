@@ -29,6 +29,13 @@
 
         activate();
 
+        function goToBar(stage) {
+            // create a background..
+            var background = PIXI.Sprite.fromImage("content/images/bar.png");
+            // add background to stage..
+            stage.addChild(background);
+        }
+
         function activate() {
             logger.success(config.appTitle + ' loaded!', null);
             var stage = activateScene();
@@ -36,11 +43,7 @@
                 var commands = [];
                 commands = {
                     'поехали': function() {
-                        // create a background..
-                        var background = PIXI.Sprite.fromImage("content/images/bar.png");
-
-                        // add background to stage..
-                        stage.addChild(background);
+                        goToBar(stage);
                     },
                     'выход': function() {
                         // create a background..
@@ -74,11 +77,31 @@
             var interactive = true;
             var stage = new PIXI.Stage(0x000000, interactive);
 
+            var playButton = new PIXI.Graphics();
+
+            playButton.lineStyle(2, 0x0000FF, 1);
+            playButton.drawRect(425, 340, 125, 125);
+
+            playButton.interactive = true;
+
+            playButton.hitArea = new PIXI.Rectangle(425, 340, 125, 125);
+
+            playButton.tap = function() {
+                goToBar(stage);
+            };
+
+            playButton.click = function() {
+                goToBar(stage);
+            };
+
             // create a background..
             var background = PIXI.Sprite.fromImage("content/images/splash-screen.png");
 
             // add background to stage..
             stage.addChild(background);
+            stage.addChild(playButton);
+
+
 
             // create a renderer instance.
             var renderer = PIXI.autoDetectRenderer(962, 553);
@@ -86,6 +109,11 @@
 
             // add the renderer view element to the DOM
             document.body.appendChild(renderer.view);
+            function goFullscreen() {
+                // Must be called as a result of user interaction to work
+                renderer.view.webkitRequestFullscreen();
+            }
+            $(renderer.view).on('touchstart click', goFullscreen);
 
             requestAnimationFrame( animate );
             // var button1 =
