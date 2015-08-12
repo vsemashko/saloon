@@ -29,11 +29,46 @@
 
         activate();
 
-        function goToBar(stage) {
+        function goToNextBar(stage, currentBar) {
+            if (currentBar === "content/images/splash-screen.png") {
+                goToBar(stage, "content/images/bar.png");
+            } else {
+                goToBar(stage, "content/images/splash-screen.png");
+            }
+        }
+
+        function goToBar(stage, image) {
             // create a background..
-            var background = PIXI.Sprite.fromImage("content/images/bar.png");
+            var background = PIXI.Sprite.fromImage(image);
             // add background to stage..
             stage.addChild(background);
+
+            var initialPoint;
+            var finalPoint;
+
+            background.interactive = true;
+
+            background.hitArea = new PIXI.Rectangle(0, 0, 962, 553);
+
+            background.touchstart = function (interactionData) {
+                initialPoint = interactionData.data.getLocalPosition(this.parent);
+            };
+
+            background.touchend = background.touchendoutside = function (interactionData) {
+                finalPoint = interactionData.data.getLocalPosition(this.parent);
+                var xAbs = Math.abs(initialPoint.x - finalPoint.x);
+                var yAbs = Math.abs(initialPoint.y - finalPoint.y);
+                if (xAbs > 70 || yAbs > 70) {//check if distance between two points is greater then 20 otherwise discard swap event
+                    if (xAbs > yAbs) {
+                        if (finalPoint.x < initialPoint.x) {
+                            goToNextBar(stage, image);
+                        }
+                        else {
+                            goToNextBar(stage, image);
+                        }
+                    }
+                }
+            }
         }
 
         function activate() {
@@ -87,11 +122,11 @@
             playButton.hitArea = new PIXI.Rectangle(425, 340, 125, 125);
 
             playButton.tap = function() {
-                goToBar(stage);
+                goToBar(stage, "content/images/bar.png");
             };
 
             playButton.click = function() {
-                goToBar(stage);
+                goToBar(stage, "content/images/bar.png");
             };
 
             // create a background..
