@@ -29,46 +29,18 @@
 
         activate();
 
-        function goToNextBar(stage, currentBar) {
-            if (currentBar === "content/images/splash-screen.png") {
-                goToBar(stage, "content/images/bar.png");
-            } else {
-                goToBar(stage, "content/images/splash-screen.png");
-            }
+        function goToNextBar(stage, position, currentBar) {
+            return goToBar(stage, position, "content/images/bar.png");
         }
 
-        function goToBar(stage, image) {
+        function goToBar(stage, position, image) {
             // create a background..
-            var background = PIXI.Sprite.fromImage(image);
+            var currentScene = PIXI.Sprite.fromImage(image);
             // add background to stage..
-            stage.addChild(background);
-
-            var initialPoint;
-            var finalPoint;
-
-            background.interactive = true;
-
-            background.hitArea = new PIXI.Rectangle(0, 0, 962, 553);
-
-            background.touchstart = function (interactionData) {
-                initialPoint = interactionData.data.getLocalPosition(this.parent);
-            };
-
-            background.touchend = background.touchendoutside = function (interactionData) {
-                finalPoint = interactionData.data.getLocalPosition(this.parent);
-                var xAbs = Math.abs(initialPoint.x - finalPoint.x);
-                var yAbs = Math.abs(initialPoint.y - finalPoint.y);
-                if (xAbs > 70 || yAbs > 70) {//check if distance between two points is greater then 20 otherwise discard swap event
-                    if (xAbs > yAbs) {
-                        if (finalPoint.x < initialPoint.x) {
-                            goToNextBar(stage, image);
-                        }
-                        else {
-                            goToNextBar(stage, image);
-                        }
-                    }
-                }
-            }
+            currentScene.x = position.x;
+            currentScene.image = image;
+            stage.addChild(currentScene);
+            return currentScene;
         }
 
         function activate() {
@@ -122,11 +94,47 @@
             playButton.hitArea = new PIXI.Rectangle(425, 340, 125, 125);
 
             playButton.tap = function() {
-                goToBar(stage, "content/images/bar.png");
+                var image = "content/images/bar.png";
+                var currentScene = goToBar(stage, {x:0, y:0}, image);
+                var swappableContainer = new SwappableContainer(
+                    stage,
+                    {
+                        x: 962,
+                        y: 553
+                    },
+                    {
+                        next: goToNextBar,
+                        previous: goToNextBar,
+                        current: currentScene,
+                        onSwapLeft: function() {
+
+                        },
+                        onSwapRight:function() {
+                        }
+                    });
+                stage.addChild(swappableContainer);
             };
 
             playButton.click = function() {
-                goToBar(stage, "content/images/bar.png");
+                var image = "content/images/bar.png";
+                var currentScene = goToBar(stage, {x:0, y:0}, image);
+                var swappableContainer = new SwappableContainer(
+                    stage,
+                    {
+                        x: 962,
+                        y: 553
+                    },
+                    {
+                        next: goToNextBar,
+                        previous: goToNextBar,
+                        current: currentScene,
+                        onSwapLeft: function() {
+
+                        },
+                        onSwapRight:function() {
+                        }
+                    });
+                stage.addChild(swappableContainer);
             };
 
             // create a background..
