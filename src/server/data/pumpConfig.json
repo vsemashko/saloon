@@ -6,8 +6,8 @@
         "pumpId": 17,
         "measurerId": 24,
         "liquid": {
-          "id": "Whiskey",
-          "name": "Виски"
+          "id": "Cola",
+          "name": "Кола"
         }
       },
       {
@@ -24,8 +24,8 @@
         "pumpId": 22,
         "measurerId": 25,
         "liquid": {
-          "id": "Cola",
-          "name": "Кола"
+          "id": "Whiskey",
+          "name": "Виски"
         }
       }
     ]
