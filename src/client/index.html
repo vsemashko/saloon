@@ -23,6 +23,14 @@
     <!-- inject:css -->
     <link href="/src/client/content/customtheme.css" rel="stylesheet">
     <link href="/src/client/content/styles.css" rel="stylesheet"/>
+    <script src="/bower_components/webfontloader/webfontloader.js"></script>
+    <script>
+        WebFont.load({
+            custom: {
+                families: ['Lcchalk', 'Westerlandc']
+            }
+        });
+    </script>
     <!-- endinject -->
 </head>
 <body>
@@ -52,6 +60,7 @@
 <script src="/src/client/app/app.module.js"></script>
 
 <script src="/src/client/app/pixi/SwappableContainer.js"></script>
+<script src="/src/client/app/pixi/InteractiveArea.js"></script>
 
 <!-- Reusable Blocks/Modules -->
 <script src="/src/client/app/blocks/exception/exception.module.js"></script>

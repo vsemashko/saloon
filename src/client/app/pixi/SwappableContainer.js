@@ -1,3 +1,4 @@
+
 /**
  * Created by Vadim Chadyuk on 13.08.2015.
  */
@@ -22,7 +23,7 @@ PIXI.Container.prototype.removeChild = function(child)
     {
         throw new Error(child + " The supplied DisplayObject must be a child of the caller " + this);
     }
-}
+};
 
 function SwappableContainer(stage, display, options) {
     var that = this;
@@ -33,10 +34,11 @@ function SwappableContainer(stage, display, options) {
     that.options = options;
     that.stage = stage;
     that.display = display;
-    that.MOVE_SPEED = 25;
+    that.MOVE_SPEED = 50;
     that.next = options.next;
     that.previous = options.previous;
     that.current = options.current;
+    that.items = options.items;
 
     that.hitArea = new PIXI.Rectangle(0, 0, display.x, display.y);
 
@@ -56,10 +58,10 @@ function SwappableContainer(stage, display, options) {
             if (xAbs > 70 || yAbs > 70) {//check if distance between two points is greater then 20 otherwise discard swap event
                 if (xAbs > yAbs) {
                     if (finalPoint.x < initialPoint.x) {
-                        that.onSwapLeft(options.onSwapLeft);
+                        that.onSwapLeft();
                     }
                     else {
-                        that.onSwapRight(options.onSwapRight);
+                        that.onSwapRight();
                     }
                 }
             }
@@ -69,38 +71,62 @@ function SwappableContainer(stage, display, options) {
 
 SwappableContainer.prototype = Object.create(PIXI.Graphics.prototype);
 
-SwappableContainer.prototype.onSwapLeft = function(cb) {
+SwappableContainer.prototype.onSwapLeft = function() {
     var that = this;
-    var nextScene = that.next(that.stage, {x: that.display.x, y: 0}, that.current.image);
-    that.interactive = false;
-    var interval = setInterval(function(){
-        that.current.x -= that.MOVE_SPEED;
-        nextScene.x -= that.MOVE_SPEED;
-        if (that.current.x < -that.display.x) {
-            nextScene.x = 0;
-            cb();
-            that.stage.removeChild(that.current);
-            that.current = nextScene;
-            that.interactive = true;
-            clearInterval(interval);
+    var nextItem = that.getNextItem();
+    if (that.interactive && nextItem) {
+        var nextScene = that.next(that.stage, {x: that.display.x, y: 0}, nextItem, that.current.image);
+        that.interactive = false;
+        requestAnimationFrame(animate);
+        function animate() {
+            that.current.x -= that.MOVE_SPEED;
+            nextScene.x -= that.MOVE_SPEED;
+            if (that.current.x < -that.display.x) {
+                nextScene.x = 0;
+                that.options.onSwapLeft();
+                that.stage.removeChild(that.current);
+                that.current = nextScene;
+                that.interactive = true;
+            } else {
+                requestAnimationFrame(animate);
+            }
         }
-    }, 10);
+    }
 };
 
-SwappableContainer.prototype.onSwapRight = function(cb) {
+SwappableContainer.prototype.onSwapRight = function() {
     var that = this;
-    var previousScene = that.previous(that.stage, {x: -that.display.x, y: 0}, that.current.image);
-    that.interactive = false;
-    var interval = setInterval(function(){
-        that.current.x += that.MOVE_SPEED;
-        previousScene.x += that.MOVE_SPEED;
-        if (that.current.x > that.display.x) {
-            previousScene.x = 0;
-            cb();
-            that.stage.removeChild(that.current);
-            that.current = previousScene;
-            that.interactive = true;
-            clearInterval(interval);
+    var previousItems = that.getPreviousItem();
+    if (that.interactive && previousItems) {
+        var previousScene = that.previous(that.stage, {x: -that.display.x, y: 0}, previousItems, that.current.image);
+        that.interactive = false;
+        requestAnimationFrame(animate);
+        function animate() {
+            that.current.x += that.MOVE_SPEED;
+            previousScene.x += that.MOVE_SPEED;
+            if (that.current.x > that.display.x) {
+                previousScene.x = 0;
+                that.options.onSwapRight();
+                that.stage.removeChild(that.current);
+                that.current = previousScene;
+                that.interactive = true;
+            } else {
+                requestAnimationFrame(animate);
+            }
         }
-    }, 10);
+    }
 };
+
+SwappableContainer.prototype.getNextItem = function() {
+    var that = this;
+    var currentItem = that.current.data;
+    var currentIndex = that.items.indexOf(currentItem);
+    return that.items[currentIndex + 1];
+};
+
+SwappableContainer.prototype.getPreviousItem = function() {
+    var that = this;
+    var currentItem = that.current.data;
+    var currentIndex = that.items.indexOf(currentItem);
+    return that.items[currentIndex - 1];
+}

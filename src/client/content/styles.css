@@ -647,4 +647,14 @@ body {
     height: 100%;
 }
 
+@font-face {
+    font-family: 'Lcchalk';
+    src: url('Lcchalk_.ttf');
+}
+
+@font-face {
+    font-family: 'Westerlandc';
+    src: url('westerlandc.ttf');
+}
+
 /*#endregion */
