@@ -13,6 +13,7 @@ var Raspberry = function () {
     vm.pour = pour;
     vm.pulseCount = 0;
     vm.pumps = [];
+    vm.backlight;
 
     process.on('exit', cleanupGPIO);
 
@@ -24,6 +25,7 @@ var Raspberry = function () {
         var pumpsConfig = vm.dataService.getPumpConfiguration()[0].data,
             pump,
             config;
+        vm.backlight = new GPIO(27, 'out');
         for (var i = 0, length = pumpsConfig.length; i < length; i++) {
             config = pumpsConfig[i];
             pump = initPump(config);
@@ -49,6 +51,7 @@ var Raspberry = function () {
 
     function pour(liquid, amount) {
         amount = amount ? amount : 50;
+        vm.backlight.writeSync(1);
         var activePump = getPump(liquid),
             deferred = Q.defer();
         if (!activePump) {
@@ -63,6 +66,7 @@ var Raspberry = function () {
             vm.pulseCount = 0;
             if (liquidIsPoured(amount, flowMeasurer) || liquidIsEnded(flowMeasurer)) {
                 stopPouring(pourInterval, activePump);
+                vm.backlight.writeSync(0);
                 deferred.resolve();
             }
 
@@ -140,6 +144,7 @@ var Raspberry = function () {
             currentPump.gpio.unexport();
             currentPump.flowSensor.unexport();
         }
+        vm.backlight.unexport();
         console.log('GPIO is cleaned');
     }
 
