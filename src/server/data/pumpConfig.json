@@ -15,6 +15,15 @@
         "pumpId": 4,
         "measurerId": 23,
         "liquid": {
+          "id": "Rum_White",
+          "name": "Ром светлый"
+        }
+      },
+      {
+        "id": 3,
+        "pumpId": 22,
+        "measurerId": 25,
+        "liquid": {
           "id": "Cola",
           "name": "Кола"
         }
