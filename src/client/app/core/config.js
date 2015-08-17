@@ -5,6 +5,8 @@
 
     core.config(toastrConfig);
 
+    toastrConfig.$inject = ['toastr'];
+
     /* @ngInject */
     function toastrConfig(toastr) {
         toastr.options.timeOut = 4000;
@@ -21,6 +23,8 @@
 
     core.config(configure);
 
+    configure.$inject = ['$logProvider', '$routeProvider', 'routehelperConfigProvider', 'exceptionHandlerProvider'];
+
     /* @ngInject */
     function configure($logProvider, $routeProvider, routehelperConfigProvider, exceptionHandlerProvider) {
         // turn debugging off/on (no info or warn)
@@ -33,9 +37,9 @@
         routehelperConfigProvider.config.docTitle = 'Saloon: ';
         var resolveAlways = {
             /* @ngInject */
-            ready: function (dataservice) {
+            ready: ['dataservice', function (dataservice) {
                 return dataservice.ready();
-            }
+            }]
             // ready: ['dataservice', function (dataservice) {
             //    return dataservice.ready();
             // }]

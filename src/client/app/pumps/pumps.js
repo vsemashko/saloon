@@ -14,6 +14,7 @@
         vm.init = init;
         vm.pumps = [];
         vm.liquids = [];
+        vm.ingredients = [];
 
         vm.savePumps = savePumps;
         vm.title = 'Pumps config';
@@ -26,7 +27,7 @@
         }
 
         function activate() {
-            var promises = [getLiquids(), getPumps()];
+            var promises = [getLiquids(), getPumps(), getIngredients()];
             return $q.all(promises);
         }
 
@@ -47,6 +48,12 @@
             return dataservice.getLiquids().then(function (data) {
                 vm.liquids = data;
                 return vm.liquids;
+            });
+        }
+
+        function getIngredients() {
+            return dataservice.getIngredients().then(function (data) {
+                return vm.ingredients = data;
             });
         }
     }

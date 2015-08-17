@@ -1,18 +1,11 @@
 ﻿<div data-ng-controller="Shell as shell" style="height: 100%">
-    <header class="clearfix" ng-show="shell.showApp">
-        <div data-ng-include="'app/layout/topnav.html'"></div>
-    </header>
-    <section id="content" class="content" ng-show="shell.showApp" style="height: calc(100% - 50px)">
-        <div data-ng-include="'app/layout/sidebar.html'"></div>
-
+    <section id="content" class="content" ng-show="shell.showApp" style="height: 100%">
         <div data-ng-view class="shuffle-animation" style="height: 100%; overflow-x: visible; overflow-y: auto"></div>
-
         <div ngplus-overlay
              ngplus-overlay-delay-in="50"
              ngplus-overlay-delay-out="700"
              ngplus-overlay-animation="dissolve-animation">
             <img src="../../content/images/busy.gif"/>
-
             <div class="page-spinner-message overlay-message">{{shell.busyMessage}}</div>
         </div>
     </section>

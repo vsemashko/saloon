@@ -6,11 +6,16 @@ var LocalDataService = function () {
     vm.getLiquids = getLiquids;
     vm.getPumpConfiguration = getPumpConfiguration;
     vm.savePumpConfiguration = savePumpConfiguration;
+    vm.getIngredients = getIngredients;
 
     //////////////////
 
     function getCocktails() {
         return vm.jsonfileservice.getJsonFromFile('/../../data/cocktails.json');
+    }
+
+    function getIngredients() {
+        return vm.jsonfileservice.getJsonFromFile('/../../data/ingredients.json');
     }
 
     function getLiquids() {

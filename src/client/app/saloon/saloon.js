@@ -4,6 +4,9 @@
     angular
         .module('app.saloon')
         .controller('Saloon', Saloon);
+
+    Saloon.$inject = ['dataservice', 'logger'];
+
     function Saloon(dataservice, logger) {
         /*jshint validthis: true */
         var vm = this;

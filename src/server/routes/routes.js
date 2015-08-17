@@ -5,12 +5,17 @@ var Routes = function (app) {
 
     app.get('/api/cocktails', getCocktails);
     app.get('/api/liquids', getLiquids);
+    app.get('/api/ingredients', getIngredients);
     app.get('/api/pump-config', getPumpConfiguration);
     app.post('/api/pump-config', savePumpConfiguration);
     app.post('/api/pour', pourLiquid);
 
     function getCocktails(req, res, next) {
         res.send(vm.dataService.getCocktails());
+    }
+
+    function getIngredients(req, res, next) {
+        res.send(vm.dataService.getIngredients());
     }
 
     function getLiquids(req, res, next) {

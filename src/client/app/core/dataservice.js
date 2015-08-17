@@ -5,6 +5,8 @@
         .module('app.core')
         .factory('dataservice', dataservice);
 
+    dataservice.$inject = ['$resource', '$q', 'exception'];
+
     /* @ngInject */
     function dataservice($resource, $q, exception) {
         var isPrimed = false;
@@ -12,6 +14,7 @@
 
         var service = {
             getCocktails: getCocktails,
+            getIngredients: getIngredients,
             getLiquids: getLiquids,
             prepareCocktail: prepareCocktail,
             getPumpConfig: getPumpConfig,
@@ -25,6 +28,14 @@
             var Cocktails = $resource('/api/cocktails', {});
             return Cocktails.query({}).$promise.then(getCocktailsComplete).catch(handleException);
             function getCocktailsComplete(data, status, headers, config) {
+                return data[0].data;
+            }
+        }
+
+        function getIngredients() {
+            var Ingredients = $resource('/api/ingredients', {});
+            return Ingredients.query({}).$promise.then(getIngredientsComplete).catch(handleException);
+            function getIngredientsComplete(data, status, headers, config) {
                 return data[0].data;
             }
         }

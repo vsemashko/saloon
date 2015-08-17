@@ -1,0 +1,54 @@
+[
+  {
+    "data": [
+      {
+        "id": "Vodka",
+        "name": "Водка",
+        "amount": 50,
+        "step": 1
+      },
+      {
+        "id": "Kahlua",
+        "name": "Калуа",
+        "amount": 30,
+        "step": 2
+      },
+      {
+        "id": "Cream",
+        "name": "Сливки",
+        "amount": 30,
+        "step": 3
+      },
+      {
+        "id": "Rum_White",
+        "name": "Ром Светлый",
+        "amount": 40,
+        "step": 1
+      },
+      {
+        "id": "Sparkling_water",
+        "name": "Содовая",
+        "amount": 100,
+        "step": 2
+      },
+      {
+        "id": "Lime_juice",
+        "name": "Сок лайма",
+        "amount": 30,
+        "step": 3
+      },
+      {
+        "id": "Whiskey",
+        "name": "Виски",
+        "amount": 100,
+        "step": 1
+      },
+      {
+        "id": "Cola",
+        "name": "Кола",
+        "amount": 200,
+        "step": 2
+      }
+    ]
+  }
+]

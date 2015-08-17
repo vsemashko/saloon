@@ -18,20 +18,23 @@
     "angular-mocks": "~1.2.24"
   },
   "dependencies": {
-    "angular": "~1.2.24",
+    "angular": "latest",
     "toastr": "~2.0.1",
     "bootstrap": "~3.1.1",
     "moment": "~2.6.0",
     "jquery": "~2.1.0",
-    "angular-route": "~1.2.24",
-    "angular-animate": "~1.2.24",
-    "angular-sanitize": "~1.2.24",
-    "angular-resource": "~1.2.24",
+    "angular-route": "latest",
+    "angular-animate": "latest",
+    "angular-sanitize": "latest",
+    "angular-resource": "latest",
+    "angular-aria": "latest",
     "font-awesome": "~4.0.3",
     "extras.angular.plus": "~0.9.0",
     "lodash": "~3.10.1",
     "annyang": "latest",
     "pixi.js": "latest",
-    "webfontloader": "latest"
+    "webfontloader": "latest",
+    "angular-material": "latest",
+    "angular-material-data-table": "~0.8.8"
   }
 }
