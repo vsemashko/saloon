@@ -11,9 +11,6 @@ function InteractiveArea(stage, options) {
     that.options = options;
     that.stage = stage;
 
-    that.lineStyle(2, 0x0000FF, 1);
-    that.drawRect.apply(that, options.sizes);
-
     that.interactive = true;
 
     that.hitArea = new PIXI.Rectangle();

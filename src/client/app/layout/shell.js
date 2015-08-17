@@ -5,9 +5,9 @@
         .module('app.layout')
         .controller('Shell', Shell);
 
-    Shell.$inject = ['$rootScope', 'config', 'logger', 'dataservice'];
+    Shell.$inject = ['$rootScope', 'config', 'logger', 'dataservice', '$location'];
 
-    function Shell($rootScope, config, logger, dataservice) {
+    function Shell($rootScope, config, logger, dataservice, $location) {
         /*jshint validthis: true */
         var vm = this;
 
@@ -29,6 +29,7 @@
         vm.isBusy = true;
         vm.showSplash = true;
         vm.currentCocktail = {};
+        vm.showApp = false;
 
         $rootScope.safeApply = function(fn) {
             var phase = this.$root.$$phase;
@@ -109,7 +110,7 @@
                     var renderer = PIXI.autoDetectRenderer(DISPLAY.x, DISPLAY.y);
                     renderer.view.className = "rendererView";
                     $(renderer.view).on('touchstart click', goFullscreen);
-                    document.body.appendChild(renderer.view);
+                    $('.canvas').append(renderer.view);
                     requestAnimationFrame( animate );
 
                     function animate() {
@@ -152,6 +153,18 @@
             gear.x = 875;
             gear.y = 50;
             gear.pivot = new PIXI.Point(25, 25);
+            gear.tap = function() {
+                $rootScope.safeApply(function() {
+                    vm.showApp = true;
+                    $location.path('/pumps');
+                });
+            };
+            gear.click = function() {
+                $rootScope.safeApply(function() {
+                    vm.showApp = true;
+                    $location.path('/pumps');
+                });
+            };
 
             requestAnimationFrame(animateGear);
             function animateGear() {
@@ -162,6 +175,18 @@
 
             var smallGear = new PIXI.Sprite(stage.resources.SMALL_GEAR.texture);
             smallGear.interactive = true;
+            smallGear.tap = function() {
+                $rootScope.safeApply(function() {
+                    vm.showApp = true;
+                    $location.path('/pumps');
+                });
+            };
+            smallGear.click = function() {
+                $rootScope.safeApply(function() {
+                    vm.showApp = true;
+                    $location.path('/pumps');
+                });
+            };
             smallGear.x = 910;
             smallGear.y = 62;
             smallGear.pivot = new PIXI.Point(12, 12);
@@ -210,6 +235,7 @@
                     }
                 });
             stage.addChild(swappableContainer);
+            swappableContainer.current.bringToFront();
             var previous = new InteractiveArea(stage, {
                 sizes: PREVIOUS_BUTTON_SIZES,
                 onClick: function() {

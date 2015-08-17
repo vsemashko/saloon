@@ -15,7 +15,7 @@
     function getRoutes() {
         return [
             {
-                url: '/',
+                url: '/cocktails',
                 config: {
                     templateUrl: 'app/cocktails/cocktails.html',
                     controller: 'Cocktails',
