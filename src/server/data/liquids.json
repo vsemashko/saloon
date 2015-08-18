@@ -36,6 +36,10 @@
       {
         "id": "Lime_juice",
         "name": "Сок лайма"
+      },
+      {
+        "id": "Tequila",
+        "name": "Текила"
       }
     ]
   }

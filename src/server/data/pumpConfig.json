@@ -3,8 +3,8 @@
     "data": [
       {
         "id": 1,
-        "pumpId": 17,
-        "measurerId": 24,
+        "pumpId": 22,
+        "measurerId": 25,
         "liquid": {
           "id": "Cola",
           "name": "Кола"
@@ -12,8 +12,8 @@
       },
       {
         "id": 2,
-        "pumpId": 4,
-        "measurerId": 23,
+        "pumpId": 10,
+        "measurerId": 8,
         "liquid": {
           "id": "Rum_White",
           "name": "Ром светлый"
@@ -21,11 +21,74 @@
       },
       {
         "id": 3,
-        "pumpId": 22,
-        "measurerId": 25,
+        "pumpId": 9,
+        "measurerId": 7,
+        "liquid": {
+          "id": "Tequila",
+          "name": "Текила"
+        }
+      },
+      {
+        "id": 4,
+        "pumpId": 11,
+        "measurerId": 1,
+        "liquid": {
+          "id": "Rum",
+          "name": "Ром"
+        }
+      },
+      {
+        "id": 5,
+        "pumpId": 4,
+        "measurerId": 23,
+        "liquid": {
+          "id": "Vodka",
+          "name": "Водка"
+        }
+      },
+      {
+        "id": 6,
+        "pumpId": 17,
+        "measurerId": 24,
+        "liquid": {
+          "id": "Kahlua",
+          "name": "Калуа"
+        }
+      },
+      {
+        "id": 7,
+        "pumpId": 5,
+        "measurerId": 12,
+        "liquid": {
+          "id": "Cream",
+          "name": "Сливки"
+        }
+      },
+      {
+        "id": 8,
+        "pumpId": 6,
+        "measurerId": 16,
+        "liquid": {
+          "id": "Sparkling_water",
+          "name": "Содовая"
+        }
+      },
+      {
+        "id": 9,
+        "pumpId": 13,
+        "measurerId": 20,
         "liquid": {
           "id": "Whiskey",
           "name": "Виски"
+        }
+      },
+      {
+        "id": 10,
+        "pumpId": 19,
+        "measurerId": 21,
+        "liquid": {
+          "id": "Lime_juice",
+          "name": "Сок лайма"
         }
       }
     ]
