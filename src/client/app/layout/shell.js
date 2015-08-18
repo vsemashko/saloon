@@ -16,11 +16,14 @@
         var SIGN_BOARD = "content/images/signboard.png";
         var GEAR = "content/images/gear.png";
         var SMALL_GEAR = "content/images/small_gear.png";
+        var DEFAULT_COCKTAIL = "content/images/default-cocktail.png";
+        var MAKE_BUTTON = "content/images/make.png";
+        var VOICE_BUTTON = "content/images/voice.png";
         var DISPLAY =  {x: 962, y: 553};
         var PREVIOUS_BUTTON_SIZES = [40, 255, 90, 90];
         var NEXT_BUTTON_SIZES = [825, 255, 90, 90];
         var START_BUTTON_SIZES = [425, 340, 125, 125];
-        var MAKE_COCKTAIL_BUTTON_SIZES = [260, 440, 410, 100];
+        var MAKE_COCKTAIL_BUTTON_SIZES = [815, 425, 100, 100];
         var INGREDIENT_START_POSITION = {x: 530, y: 160};
         var INGREDIENT_OFFSET = 35;
 
@@ -94,6 +97,9 @@
                 .add('SIGN_BOARD', SIGN_BOARD)
                 .add('GEAR', GEAR)
                 .add('SMALL_GEAR', SMALL_GEAR)
+                .add('DEFAULT_COCKTAIL', DEFAULT_COCKTAIL)
+                .add('MAKE_BUTTON', MAKE_BUTTON)
+                .add('VOICE_BUTTON', VOICE_BUTTON)
                 .load(function (loader, resources) {
                     stage.resources = resources;
                     var splashScreen = new PIXI.Sprite(resources.SPLASH_SCREEN_IMAGE.texture);
@@ -193,6 +199,11 @@
             smallGear.y = 62;
             smallGear.pivot = new PIXI.Point(12, 12);
 
+            var cocktail = new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
+            cocktail.interactive = true;
+            cocktail.x = 250;
+            cocktail.y = 300;
+
             requestAnimationFrame(animateSmallGear);
             function animateSmallGear() {
                 requestAnimationFrame(animateSmallGear);
@@ -200,6 +211,12 @@
             }
             currentScene.addChild(gear);
             currentScene.addChild(smallGear);
+            currentScene.addChild(cocktail);
+
+            var makeButton = new PIXI.Sprite(stage.resources.MAKE_BUTTON.texture);
+            makeButton.interactive = true;
+            makeButton.x = 815;
+            makeButton.y = 425;
 
             var makeCocktail = new InteractiveArea(stage, {
                 sizes: MAKE_COCKTAIL_BUTTON_SIZES,
@@ -207,8 +224,14 @@
                     prepareCocktail();
                 }
             });
+            currentScene.addChild(makeButton);
             currentScene.addChild(makeCocktail);
 
+            var voiceButton = new PIXI.Sprite(stage.resources.VOICE_BUTTON.texture);
+            voiceButton.interactive = true;
+            voiceButton.x = 35;
+            voiceButton.y = 425;
+            currentScene.addChild(voiceButton);
 
             var allIngredients = data.bar_ingredients.concat(data.ingredients);
 

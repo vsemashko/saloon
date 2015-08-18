@@ -14,9 +14,10 @@
         vm.init = init;
         vm.pumps = [];
         vm.liquids = [];
-        vm.ingredients = [];
 
         vm.savePumps = savePumps;
+        vm.saveLiquids = saveLiquids;
+        vm.addNewLiquid = addNewLiquid;
         vm.title = 'Pumps config';
 
         activate();
@@ -24,10 +25,11 @@
         function init(pump) {
             _.remove(vm.liquids, 'id', pump.liquid.id);
             vm.liquids.unshift(pump.liquid);
+            vm.selectedIngredient = pump.liquid;
         }
 
         function activate() {
-            var promises = [getLiquids(), getPumps(), getIngredients()];
+            var promises = [getLiquids(), getPumps()];
             return $q.all(promises);
         }
 
@@ -44,6 +46,18 @@
             });
         }
 
+        function saveLiquids() {
+            return dataservice.saveLiquidsConfig(vm.liquids).then(function (data) {
+                logger.success('Liquids config saved');
+            });
+        }
+
+        function addNewLiquid() {
+            var newLiquid = {isNew: true, name: "Default", id: guid()};
+            vm.liquids.push(newLiquid);
+            vm.selectedIngredient = newLiquid;
+        }
+
         function getLiquids() {
             return dataservice.getLiquids().then(function (data) {
                 vm.liquids = data;
@@ -51,10 +65,14 @@
             });
         }
 
-        function getIngredients() {
-            return dataservice.getIngredients().then(function (data) {
-                return vm.ingredients = data;
-            });
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
         }
     }
 })();

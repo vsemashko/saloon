@@ -19,6 +19,7 @@
             prepareCocktail: prepareCocktail,
             getPumpConfig: getPumpConfig,
             savePumpConfig: savePumpConfig,
+            saveLiquidsConfig: saveLiquidsConfig,
             ready: ready
         };
 
@@ -41,8 +42,7 @@
         }
 
         function getLiquids() {
-            var Liquids = $resource('/api/liquids', {});
-            return Liquids.query({}).$promise.then(getLiquidsComplete).catch(handleException);
+            return getLiquidsResource().query({}).$promise.then(getLiquidsComplete).catch(handleException);
             function getLiquidsComplete(data, status, headers, config) {
                 return data[0].data;
             }
@@ -70,6 +70,38 @@
             function getPumpsConfigComplete(data, status, headers, config) {
                 return data[0].data;
             }
+        }
+
+        function saveLiquidsConfig(config) {
+            _.each(config, function(item){
+                delete item.isNew;
+            });
+            var storedConfig = [{
+                'data': config
+            }];
+            return getLiquidsResource().save(storedConfig).$promise.then(getLiquidsConfigComplete).catch(handleException);
+            function getLiquidsConfigComplete(data, status, headers, config) {
+                return data[0].data;
+            }
+        }
+
+        function getLiquidsResource() {
+            var actions = {
+                get: {
+                    url: '/api/liquids',
+                    method: "GET",
+                    isArray: true
+                },
+                save: {
+                    url: '/api/liquids',
+                    method: "POST",
+                    data: {
+                        config: '@config'
+                    },
+                    isArray: true
+                }
+            };
+            return $resource('/api/liquids', {}, actions);
         }
 
         function getPumpResource() {

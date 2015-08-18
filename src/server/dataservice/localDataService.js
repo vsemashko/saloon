@@ -6,6 +6,7 @@ var LocalDataService = function () {
     vm.getLiquids = getLiquids;
     vm.getPumpConfiguration = getPumpConfiguration;
     vm.savePumpConfiguration = savePumpConfiguration;
+    vm.saveLiquidsConfiguration = saveLiquidsConfiguration;
     vm.getIngredients = getIngredients;
 
     //////////////////
@@ -32,6 +33,10 @@ var LocalDataService = function () {
 
     function savePumpConfiguration(config) {
         vm.jsonfileservice.saveJsonToFile('/../../data/pumpConfig_custom.json', config);
+    }
+
+    function saveLiquidsConfiguration(config) {
+        vm.jsonfileservice.saveJsonToFile('/../../data/liquids.json', config);
     }
 
 };

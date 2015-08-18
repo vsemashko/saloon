@@ -9,6 +9,7 @@ var Routes = function (app) {
     app.get('/api/pump-config', getPumpConfiguration);
     app.post('/api/pump-config', savePumpConfiguration);
     app.post('/api/pour', pourLiquid);
+    app.post('/api/liquids', saveLiquidsConfiguration)
 
     function getCocktails(req, res, next) {
         res.send(vm.dataService.getCocktails());
@@ -28,6 +29,11 @@ var Routes = function (app) {
 
     function savePumpConfiguration(req, res, next) {
         vm.dataService.savePumpConfiguration(req.body);
+        res.send(req.body);
+    }
+
+    function saveLiquidsConfiguration(req, res, next) {
+        vm.dataService.saveLiquidsConfiguration(req.body);
         res.send(req.body);
     }
 

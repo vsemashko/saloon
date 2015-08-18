@@ -31,26 +31,41 @@
             </md-content>
         </md-tab>
         <md-tab label="Ingredients">
-            <md-content class="md-padding" flex>
-                <div layout="row" layout-wrap>
-                    <div flex="33">
+            <div layout="row" layout-wrap>
+                <div flex="33">
+                    <md-content class="md-padding" flex="33">
                         <md-list>
-                            <md-list-item ng-repeat-start="ingredient in vm.ingredients">
-                                <md-button style="min-width: 100%">{{ ingredient.name }}</md-button>
+                            <md-list-item ng-repeat-start="ingredient in vm.liquids">
+                                <md-button style="min-width: 100%" ng-click="vm.selectedIngredient = ingredient">{{ ingredient.name }}</md-button>
                             </md-list-item>
                             <md-divider ng-repeat-end></md-divider>
+                            <md-list-item>
+                                <md-button style="min-width: 100%" ng-click="vm.addNewLiquid()">Add new</md-button>
+                            </md-list-item>
                         </md-list>
-                    </div>
-                    <div flex="66">
-                        [flex="55"]
-                    </div>
+                    </md-content>
                 </div>
+                <div flex="66">
+                    <md-content layout-padding>
+                        <md-input-container>
+                            <label>Id</label>
+                            <input ng-model="vm.selectedIngredient.id" type="text" ng-disabled="!vm.selectedIngredient.isNew">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Name</label>
+                            <input ng-model="vm.selectedIngredient.name" type="text">
+                        </md-input-container>
+                        <md-button class="md-raised" ng-click="vm.saveLiquids()">Save</md-button>
+                    </md-content>
+                </div>
+            </div>
+        </md-tab>
+        <md-tab label="Cocktails">
+            <md-content class="md-padding">
             </md-content>
         </md-tab>
-        <md-tab label="three">
+        <md-tab label="Exit" ng-click="shell.showApp = !shell.showApp">
             <md-content class="md-padding">
-                <h1 class="md-display-2">Tab Three</h1>
-                <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
             </md-content>
         </md-tab>
     </md-tabs>
