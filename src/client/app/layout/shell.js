@@ -115,7 +115,9 @@
 
                     function animate() {
                         requestAnimationFrame( animate );
-                        renderer.render(stage);
+                        if (!vm.showApp) {
+                            renderer.render(stage);
+                        }
                     }
                 });
             return stage;
