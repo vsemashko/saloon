@@ -677,8 +677,14 @@ header {
     min-height: initial;
 }
 
-md-tabs {
+.tabs {
     height: 100%;
+}
+
+.tabs__panes {
+    height: calc(100% - 48px);
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /*#endregion */

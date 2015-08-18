@@ -1,57 +1,53 @@
-﻿<md-content class="md-padding" style="height: 100%">
-    <md-tabs md-stretch-tabs="always" style="height: 100%">
-        <md-tab label="Pumps">
-            <md-content class="md-padding" style="height: 100%">
-                <md-data-table-container>
-                    <table md-data-table md-row-select="selected">
-                        <thead>
-                        <tr>
-                            <th name="Pump id"></th>
-                            <th numeric name="Pump pin"></th>
-                            <th numeric name="Measurer pin"></th>
-                            <th numeric name="Liquid"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr md-auto-select data-ng-repeat="pump in vm.pumps track by $index">
-                            <td>{{pump.id}}</td>
-                            <td>{{pump.pumpId}}</td>
-                            <td>{{pump.measurerId}}</td>
-                            <td>
-                                <select ng-init="vm.init(pump)"
-                                        ng-model="pump.liquid"
-                                        ng-options="item as item.name for item in vm.liquids">
-                                </select>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </md-data-table-container>
-            </md-content>
-            <md-button class="md-raised" ng-click="vm.savePumps()">Save pumps configuration</md-button>
-        </md-tab>
-        <md-tab label="Ingredients">
-            <md-content class="md-padding" flex>
-                <div layout="row" layout-wrap>
-                    <div flex="33">
-                        <md-list>
-                            <md-list-item ng-repeat-start="ingredient in vm.ingredients">
-                                <md-button style="min-width: 100%">{{ ingredient.name }}</md-button>
-                            </md-list-item>
-                            <md-divider ng-repeat-end></md-divider>
-                        </md-list>
-                    </div>
-                    <div flex="66">
-                        [flex="55"]
-                    </div>
+﻿<div class="card" style="height: 100%">
+    <lx-tabs links-tc="light" links-bgc="light-blue-500" indicator="yellow-500" no-divider="true" z-depth="1">
+        <lx-tab heading="Pumps">
+            <table class="data-table">
+                <thead>
+                    <tr class="data-table__selectable-row">
+                        <th></th>
+                        <th>Pump id</th>
+                        <th>Pump pin</th>
+                        <th>Measurer pin</th>
+                        <th>Liquid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="data-table__selectable-row" data-ng-repeat="pump in vm.pumps track by $index">
+                        <td></td>
+                        <td>{{pump.id}}</td>
+                        <td>{{pump.pumpId}}</td>
+                        <td>{{pump.measurerId}}</td>
+                        <td>
+                            <select ng-init="vm.init(pump)"
+                                    ng-model="pump.liquid"
+                                    ng-options="item as item.name for item in vm.liquids">
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn--m btn--blue btn--raised" lx-ripple>Save pumps configuration</button>
+        </lx-tab>
+
+        <lx-tab heading="Ingredients">
+            <div flex-container="row" flex-gutter="24" flex-wrap>
+                <div flex-item="4">
+                    <ul class="list mt++">
+                        <li class="list-row list-row--has-separator" ng-repeat="ingredient in vm.ingredients track by $index">
+                            <div class="list-row__content">
+                                <button class="btn btn--m btn--black btn--flat" lx-ripple>{{ ingredient.name }}</button>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-            </md-content>
-        </md-tab>
-        <md-tab label="three">
-            <md-content class="md-padding">
-                <h1 class="md-display-2">Tab Three</h1>
-                <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
-            </md-content>
-        </md-tab>
-    </md-tabs>
-</md-content>
+                <div flex-item="8">
+                    [flex="8"]
+                </div>
+            </div>
+        </lx-tab>
+
+        <lx-tab heading="Lorem Ipsum 3">
+            <p class="p+">Lorem Ipsum Content 3</p>
+        </lx-tab>
+    </lx-tabs>
+</div>

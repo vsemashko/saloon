@@ -5,7 +5,7 @@
         /*
          * Angular modules
          */
-        'ngAnimate', 'ngRoute', 'ngSanitize', 'ngResource', 'ngMaterial', 'ngAria',
+        'ngRoute', 'ngSanitize', 'ngResource',
         /*
          * Our reusable cross app code modules
          */
@@ -13,6 +13,6 @@
         /*
          * 3rd Party modules
          */
-        'ngplus', 'md.data.table'
+        'ngplus', 'lumx'
     ]);
 })();
