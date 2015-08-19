@@ -2,6 +2,136 @@
   {
     "data": [
       {
+        "name": "Кола 1",
+        "bar_ingredients": [
+          {
+            "id": "Cola",
+            "name": "Кола",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Ром светлый 2",
+        "bar_ingredients": [
+          {
+            "id": "Rum_White",
+            "name": "Ром светлый",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Текила 3",
+        "bar_ingredients": [
+          {
+            "id": "Tequila",
+            "name": "Текила",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Ром 4",
+        "bar_ingredients": [
+          {
+            "id": "Ром",
+            "name": "Текила",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Водка 5",
+        "bar_ingredients": [
+          {
+            "id": "Vodka",
+            "name": "Водка",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Кофейный ликер 6",
+        "bar_ingredients": [
+          {
+            "id": "Kahlua",
+            "name": "Калуа",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Сливки 7",
+        "bar_ingredients": [
+          {
+            "id": "Сливки",
+            "name": "Cream",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Содовая 8",
+        "bar_ingredients": [
+          {
+            "id": "Sparkling_water",
+            "name": "Содовая",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Виски 9",
+        "bar_ingredients": [
+          {
+            "id": "Whiskey",
+            "name": "Виски",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Сок лайма 10",
+        "bar_ingredients": [
+          {
+            "id": "Lime_juice",
+            "name": "Сок лайма",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
         "name": "Белый Русский",
         "bar_ingredients": [
           {
