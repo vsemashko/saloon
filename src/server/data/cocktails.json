@@ -44,8 +44,8 @@
         "name": "Ром 4",
         "bar_ingredients": [
           {
-            "id": "Ром",
-            "name": "Текила",
+            "id": "Rum",
+            "name": "Ром",
             "amount": 50,
             "step": 1
           }
@@ -83,8 +83,8 @@
         "name": "Сливки 7",
         "bar_ingredients": [
           {
-            "id": "Сливки",
-            "name": "Cream",
+            "id": "Cream",
+            "name": "Сливки",
             "amount": 50,
             "step": 1
           }
