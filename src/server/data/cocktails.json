@@ -39,6 +39,7 @@
       },
       {
         "name": "Мохито",
+        "image": "content/cocktails/mojito.png",
         "bar_ingredients": [
           {
             "id": "Rum_White",

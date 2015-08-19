@@ -19,11 +19,14 @@
         var DEFAULT_COCKTAIL = "content/images/default-cocktail.png";
         var MAKE_BUTTON = "content/images/make.png";
         var VOICE_BUTTON = "content/images/voice.png";
+        var BACK_BUTTON = "content/images/back.png";
         var DISPLAY =  {x: 962, y: 553};
         var PREVIOUS_BUTTON_SIZES = [40, 255, 90, 90];
         var NEXT_BUTTON_SIZES = [825, 255, 90, 90];
         var START_BUTTON_SIZES = [425, 340, 125, 125];
         var MAKE_COCKTAIL_BUTTON_SIZES = [815, 425, 100, 100];
+        var VOICE_BUTTON_SIZES = [35, 425, 100, 100];
+        var BACK_BUTTON_SIZES = [35, 15, 100, 100];
         var INGREDIENT_START_POSITION = {x: 530, y: 160};
         var INGREDIENT_OFFSET = 35;
 
@@ -100,6 +103,7 @@
                 .add('DEFAULT_COCKTAIL', DEFAULT_COCKTAIL)
                 .add('MAKE_BUTTON', MAKE_BUTTON)
                 .add('VOICE_BUTTON', VOICE_BUTTON)
+                .add('BACK_BUTTON', BACK_BUTTON)
                 .load(function (loader, resources) {
                     stage.resources = resources;
                     var splashScreen = new PIXI.Sprite(resources.SPLASH_SCREEN_IMAGE.texture);
@@ -143,7 +147,7 @@
 
             var signBoard = new PIXI.Sprite(stage.resources.SIGN_BOARD.texture);
             signBoard.y = -25;
-            signBoard.x = 100;
+            signBoard.x = 175;
             var text = new PIXI.Text(currentScene.data.name, {
                 font:"35px Westerlandc",
                 fill:"white",
@@ -199,10 +203,10 @@
             smallGear.y = 62;
             smallGear.pivot = new PIXI.Point(12, 12);
 
-            var cocktail = new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
+            var cocktail = data.image ? PIXI.Sprite.fromImage(data.image) : new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
             cocktail.interactive = true;
-            cocktail.x = 250;
-            cocktail.y = 300;
+            cocktail.x = 200 + (300 - cocktail.width) / 2;
+            cocktail.y = 553 - 53 - cocktail.height;
 
             requestAnimationFrame(animateSmallGear);
             function animateSmallGear() {
@@ -213,25 +217,30 @@
             currentScene.addChild(smallGear);
             currentScene.addChild(cocktail);
 
-            var makeButton = new PIXI.Sprite(stage.resources.MAKE_BUTTON.texture);
-            makeButton.interactive = true;
-            makeButton.x = 815;
-            makeButton.y = 425;
-
-            var makeCocktail = new InteractiveArea(stage, {
+            var makeCocktailButton = new InteractiveArea(stage, {
                 sizes: MAKE_COCKTAIL_BUTTON_SIZES,
+                texture: stage.resources.MAKE_BUTTON.texture,
                 onClick: function() {
                     prepareCocktail();
                 }
             });
-            currentScene.addChild(makeButton);
-            currentScene.addChild(makeCocktail);
+            currentScene.addChild(makeCocktailButton);
 
-            var voiceButton = new PIXI.Sprite(stage.resources.VOICE_BUTTON.texture);
-            voiceButton.interactive = true;
-            voiceButton.x = 35;
-            voiceButton.y = 425;
+            var voiceButton = new InteractiveArea(stage, {
+                sizes: VOICE_BUTTON_SIZES,
+                texture: stage.resources.VOICE_BUTTON.texture,
+                onClick: function() {
+                }
+            });
             currentScene.addChild(voiceButton);
+
+            var backButton = new InteractiveArea(stage, {
+                sizes: BACK_BUTTON_SIZES,
+                texture: stage.resources.BACK_BUTTON.texture,
+                onClick: function() {
+                }
+            });
+            currentScene.addChild(backButton);
 
             var allIngredients = data.bar_ingredients.concat(data.ingredients);
 

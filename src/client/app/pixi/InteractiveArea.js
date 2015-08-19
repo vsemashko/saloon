@@ -19,6 +19,14 @@ function InteractiveArea(stage, options) {
     that.hitArea = new PIXI.Rectangle();
     PIXI.Rectangle.apply(that.hitArea, options.sizes);
 
+    if (that.options.texture) {
+        var sprite = new PIXI.Sprite(that.options.texture);
+        sprite.x = options.sizes[0];
+        sprite.y = options.sizes[1];
+        sprite.interactive = true;
+        that.addChild(sprite)
+    }
+
 
     that.tap = function() {
         options.onClick(that.stage);
