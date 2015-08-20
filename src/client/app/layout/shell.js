@@ -12,6 +12,8 @@
         var vm = this;
 
         var SPLASH_SCREEN_IMAGE = "content/images/splash-screen.png";
+        var FULL_BAR_IMAGE = "content/images/full-bar.png";
+        var SHELF_IMAGE = "content/images/shelf.png";
         var BAR_IMAGE = "content/images/bar.png";
         var SIGN_BOARD = "content/images/signboard.png";
         var GEAR = "content/images/gear.png";
@@ -93,7 +95,16 @@
 
         function activateScene(data) {
             var stage = new PIXI.Stage(0x000000, true);
-            PIXI.loader
+
+            var loader = PIXI.loader;
+
+            _.each(data, function(item) {
+               if (item.image) {
+                   loader.add(item.name, item.image);
+               }
+            });
+
+            loader
                 // add resources
                 .add('SPLASH_SCREEN_IMAGE', SPLASH_SCREEN_IMAGE)
                 .add('BAR_IMAGE', BAR_IMAGE)
@@ -104,19 +115,22 @@
                 .add('MAKE_BUTTON', MAKE_BUTTON)
                 .add('VOICE_BUTTON', VOICE_BUTTON)
                 .add('BACK_BUTTON', BACK_BUTTON)
+                .add('FULL_BAR_IMAGE', FULL_BAR_IMAGE)
+                .add('SHELF_IMAGE', SHELF_IMAGE)
                 .load(function (loader, resources) {
                     stage.resources = resources;
                     var splashScreen = new PIXI.Sprite(resources.SPLASH_SCREEN_IMAGE.texture);
                     var playButton = new InteractiveArea(stage, {
                         sizes: START_BUTTON_SIZES,
                         onClick: function(stage) {
-                            createBarScene(stage, data);
+                            setTimeout(function() {
+                                stage.removeChildren();
+                                createFullBarScene(stage, data);
+                            })
                         }
                     });
-
                     stage.addChild(splashScreen);
                     stage.addChild(playButton);
-
                     var renderer = PIXI.autoDetectRenderer(DISPLAY.x, DISPLAY.y);
                     renderer.view.className = "rendererView";
                     $(renderer.view).on('touchstart click', goFullscreen);
@@ -136,6 +150,57 @@
         function goToCocktail(stage, position, data) {
             vm.currentCocktail = data;
             return createCocktailScene(stage, position, data, stage.resources.BAR_IMAGE.texture);
+        }
+
+        function addGears(stage, scene) {
+            var gear = new PIXI.Sprite(stage.resources.GEAR.texture);
+            gear.interactive = true;
+            gear.x = 875;
+            gear.y = 50;
+            gear.pivot = new PIXI.Point(25, 25);
+            gear.tap = function() {
+                $rootScope.safeApply(function() {
+                    vm.showApp = true;
+                    $location.path('/pumps');
+                });
+            };
+            gear.click = function() {
+                $rootScope.safeApply(function() {
+                    vm.showApp = true;
+                    $location.path('/pumps');
+                });
+            };
+
+            requestAnimationFrame(animateGear);
+            function animateGear() {
+                requestAnimationFrame(animateGear);
+                gear.rotation += 0.02;
+            }
+
+            var smallGear = new PIXI.Sprite(stage.resources.SMALL_GEAR.texture);
+            smallGear.interactive = true;
+            smallGear.tap = function() {
+                $rootScope.safeApply(function() {
+                    vm.showApp = true;
+                    $location.path('/pumps');
+                });
+            };
+            smallGear.click = function() {
+                $rootScope.safeApply(function() {
+                    vm.showApp = true;
+                    $location.path('/pumps');
+                });
+            };
+            smallGear.x = 910;
+            smallGear.y = 62;
+            smallGear.pivot = new PIXI.Point(12, 12);
+            requestAnimationFrame(animateSmallGear);
+            function animateSmallGear() {
+                requestAnimationFrame(animateSmallGear);
+                smallGear.rotation -= 0.02;
+            }
+            scene.addChild(gear);
+            scene.addChild(smallGear);
         }
 
         function createCocktailScene(stage, position, data, texture) {
@@ -160,62 +225,15 @@
             signBoard.addChild(text);
             currentScene.addChild(signBoard);
 
-            var gear = new PIXI.Sprite(stage.resources.GEAR.texture);
-            gear.interactive = true;
-            gear.x = 875;
-            gear.y = 50;
-            gear.pivot = new PIXI.Point(25, 25);
-            gear.tap = function() {
-                $rootScope.safeApply(function() {
-                    vm.showApp = true;
-                    $location.path('/pumps');
-                });
-            };
-            gear.click = function() {
-                $rootScope.safeApply(function() {
-                    vm.showApp = true;
-                    $location.path('/pumps');
-                });
-            };
 
-            requestAnimationFrame(animateGear);
-            function animateGear() {
-                requestAnimationFrame(animateGear);
-                gear.rotation += 0.02;
-            }
-            currentScene.addChild(gear);
 
-            var smallGear = new PIXI.Sprite(stage.resources.SMALL_GEAR.texture);
-            smallGear.interactive = true;
-            smallGear.tap = function() {
-                $rootScope.safeApply(function() {
-                    vm.showApp = true;
-                    $location.path('/pumps');
-                });
-            };
-            smallGear.click = function() {
-                $rootScope.safeApply(function() {
-                    vm.showApp = true;
-                    $location.path('/pumps');
-                });
-            };
-            smallGear.x = 910;
-            smallGear.y = 62;
-            smallGear.pivot = new PIXI.Point(12, 12);
-
-            var cocktail = data.image ? PIXI.Sprite.fromImage(data.image) : new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
+            var cocktail = data.image ? new PIXI.Sprite(stage.resources[data.name].texture) : new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
             cocktail.interactive = true;
             cocktail.x = 200 + (300 - cocktail.width) / 2;
             cocktail.y = 553 - 53 - cocktail.height;
 
-            requestAnimationFrame(animateSmallGear);
-            function animateSmallGear() {
-                requestAnimationFrame(animateSmallGear);
-                smallGear.rotation -= 0.02;
-            }
-            currentScene.addChild(gear);
-            currentScene.addChild(smallGear);
             currentScene.addChild(cocktail);
+            addGears(stage, currentScene);
 
             var makeCocktailButton = new InteractiveArea(stage, {
                 sizes: MAKE_COCKTAIL_BUTTON_SIZES,
@@ -238,6 +256,10 @@
                 sizes: BACK_BUTTON_SIZES,
                 texture: stage.resources.BACK_BUTTON.texture,
                 onClick: function() {
+                    setTimeout(function() {
+                        stage.removeChildren();
+                        createFullBarScene(stage, stage.data);
+                    });
                 }
             });
             currentScene.addChild(backButton);
@@ -255,7 +277,100 @@
             return currentScene;
         }
 
+        function createFullBarScene(stage, data) {
+            var initialPoint, finalPoint;
+            var countShelfs = data.length / 2;
+            var realHeight = 150 + countShelfs * 200 - DISPLAY.y;
+            var fullBarScene = new PIXI.Sprite(stage.resources.FULL_BAR_IMAGE.texture);
+            fullBarScene.interactive = true;
+
+            var emptyContainer = new PIXI.Graphics();
+            emptyContainer.interactive = true;
+            emptyContainer.hitArea = new PIXI.Rectangle(0, 0, DISPLAY.x, realHeight + DISPLAY.y);
+            emptyContainer.touchmove = function(interactionData) {
+                if (emptyContainer.interactive) {
+                    finalPoint = interactionData.data.getLocalPosition(this.parent);
+                    var xAbs = Math.abs(initialPoint.x - finalPoint.x);
+                    var yAbs = Math.abs(initialPoint.y - finalPoint.y);
+                    if (yAbs > xAbs) {
+                        if (finalPoint.y < initialPoint.y && emptyContainer.y > -realHeight) {
+                            initialPoint = interactionData.data.getLocalPosition(this.parent);
+                            emptyContainer.y -= 20;
+                        } else if (finalPoint.y > initialPoint.y && emptyContainer.y < 0) {
+                            initialPoint = interactionData.data.getLocalPosition(this.parent);
+                            emptyContainer.y += 20;
+                        }
+                    }
+                }
+            };
+
+            emptyContainer.touchstart = function (interactionData) {
+                if (emptyContainer.interactive) {
+                    initialPoint = interactionData.data.getLocalPosition(this.parent);
+                }
+            };
+
+            var voiceButton = new InteractiveArea(stage, {
+                sizes: VOICE_BUTTON_SIZES,
+                texture: stage.resources.VOICE_BUTTON.texture,
+                onClick: function() {
+                }
+            });
+
+            //add shelf's
+            for (var i = 0; i < countShelfs; i++) {
+                var shelf = new PIXI.Sprite(stage.resources.SHELF_IMAGE.texture);
+                shelf.x = 200;
+                shelf.y = 150 + 200 * i;
+                emptyContainer.addChild(shelf);
+                for (var j = 0; j < 2 && i*2 + j < data.length; j++) {
+                    var item = data[i*2 + j];
+                    var cocktail = item.image ? PIXI.Sprite.fromImage(item.image) : new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
+                    cocktail.interactive = true;
+                    cocktail.data = item;
+                    cocktail.scale.x = 0.5;
+                    cocktail.scale.y = 0.5;
+                    cocktail.x = 200 + 300 + ( j % 2 === 0 ? -cocktail.width : 0);
+                    cocktail.y = 150 + 20 - cocktail.height + i * 200;
+                    cocktail.tap = function() {
+                        var item = this.data;
+                        setTimeout(function() {
+                            vm.currentCocktail = item;
+                            createBarScene(stage, data);
+                        });
+                    };
+
+                    var text = new PIXI.Text(item.name, {
+                        font:"35px Westerlandc",
+                        fill:"white",
+                        align: 'center',
+                        wordWrap: true,
+                        wordWrapWidth: 300 - cocktail.width
+                    });
+                    text.y = 150 - text.height + i * 200;
+                    var offset = 0;
+                    if (j % 2 === 0) {
+                        offset = 300 - text.width - cocktail.width;
+                        text.x = 200 + offset - offset / 2;
+                    } else {
+                        offset = 300 - text.width - cocktail.width;
+                        text.x = 200 + 300 + cocktail.width + offset / 2;
+                    }
+                    emptyContainer.addChild(text);
+
+                    emptyContainer.addChild(cocktail);
+                }
+
+            }
+            fullBarScene.addChild(emptyContainer);
+            fullBarScene.addChild(voiceButton);
+            addGears(stage, fullBarScene);
+            stage.addChild(fullBarScene);
+
+        }
+
         function createBarScene(stage, data) {
+            stage.data = data;
             var swappableContainer = new SwappableContainer(
                 stage, DISPLAY,
                 {

@@ -34,7 +34,7 @@ function SwappableContainer(stage, display, options) {
     that.options = options;
     that.stage = stage;
     that.display = display;
-    that.MOVE_SPEED = 50;
+    that.MOVE_SPEED = 70;
     that.next = options.next;
     that.previous = options.previous;
     that.current = options.current;
