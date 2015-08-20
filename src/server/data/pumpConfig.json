@@ -31,7 +31,7 @@
       {
         "id": 4,
         "pumpId": 11,
-        "measurerId": 1,
+        "measurerId": 26,
         "liquid": {
           "id": "Rum",
           "name": "Ром"
