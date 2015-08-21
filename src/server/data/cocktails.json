@@ -2,136 +2,6 @@
   {
     "data": [
       {
-        "name": "Кола 1",
-        "bar_ingredients": [
-          {
-            "id": "Cola",
-            "name": "Кола",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Ром светлый 2",
-        "bar_ingredients": [
-          {
-            "id": "Rum_White",
-            "name": "Ром светлый",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Текила 3",
-        "bar_ingredients": [
-          {
-            "id": "Tequila",
-            "name": "Текила",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Ром 4",
-        "bar_ingredients": [
-          {
-            "id": "Rum",
-            "name": "Ром",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Водка 5",
-        "bar_ingredients": [
-          {
-            "id": "Vodka",
-            "name": "Водка",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Кофейный ликер 6",
-        "bar_ingredients": [
-          {
-            "id": "Kahlua",
-            "name": "Калуа",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Сливки 7",
-        "bar_ingredients": [
-          {
-            "id": "Cream",
-            "name": "Сливки",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Содовая 8",
-        "bar_ingredients": [
-          {
-            "id": "Sparkling_water",
-            "name": "Содовая",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Виски 9",
-        "bar_ingredients": [
-          {
-            "id": "Whiskey",
-            "name": "Виски",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
-        "name": "Сок лайма 10",
-        "bar_ingredients": [
-          {
-            "id": "Lime_juice",
-            "name": "Сок лайма",
-            "amount": 50,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
         "name": "Белый Русский",
         "bar_ingredients": [
           {
@@ -172,8 +42,8 @@
         "image": "content/cocktails/mojito.png",
         "bar_ingredients": [
           {
-            "id": "Rum_White",
-            "name": "Ром Светлый",
+            "id": "Rum",
+            "name": "Ром",
             "amount": 40,
             "step": 1
           },
@@ -218,13 +88,13 @@
           {
             "id": "Whiskey",
             "name": "Виски",
-            "amount": 100,
+            "amount": 50,
             "step": 1
           },
           {
             "id": "Cola",
             "name": "Кола",
-            "amount": 200,
+            "amount": 100,
             "step": 2
           }
         ],
@@ -238,6 +108,266 @@
         "recipe": [
           "Положите в бокал лед",
           "Поставьте в место для стакана"
+        ]
+      },
+      {
+        "name": "Водка со швепсом",
+        "bar_ingredients": [
+          {
+            "id": "Vodka",
+            "name": "Водка",
+            "amount": 50,
+            "step": 1
+          },
+          {
+            "id": "Schweppes",
+            "name": "Швепс",
+            "amount": 100,
+            "step": 2
+          }
+        ],
+        "ingredients": [
+          {
+            "name": "Лед",
+            "amount": "100 гр"
+          }
+        ],
+        "description": "Простой коктейль",
+        "recipe": [
+          "Положите в бокал лед",
+          "Поставьте в место для стакана"
+        ]
+      },
+      {
+        "name": "Текила санрайз",
+        "bar_ingredients": [
+          {
+            "id": "Tequila",
+            "name": "Текила",
+            "amount": 50,
+            "step": 1
+          },
+          {
+            "id": "Orange_Juice",
+            "name": "Апельсиновый сок",
+            "amount": 150,
+            "step": 2
+          },
+          {
+            "id": "Grenadine",
+            "name": "Гренадин",
+            "amount": 20,
+            "step": 3
+          }
+        ],
+        "ingredients": [
+          {
+            "name": "Лед",
+            "amount": "100 гр"
+          }
+        ],
+        "description": "Простой коктейль",
+        "recipe": [
+          "Положите в бокал лед",
+          "Поставьте в место для стакана"
+        ]
+      },
+      {
+        "name": "Черный Русский",
+        "bar_ingredients": [
+          {
+            "id": "Vodka",
+            "name": "Водка",
+            "amount": 50,
+            "step": 1
+          },
+          {
+            "id": "Kahlua",
+            "name": "Калуа",
+            "amount": 20,
+            "step": 2
+          }
+        ],
+        "ingredients": [
+          {
+            "name": "Лед",
+            "amount": "100 гр"
+          }
+        ],
+        "description": "Простой коктейль",
+        "recipe": [
+          "Положите в бокал лед",
+          "Поставьте в место для стакана"
+        ]
+      },
+      {
+        "name": "Виски сауэр",
+        "bar_ingredients": [
+          {
+            "id": "Whiskey",
+            "name": "Виски",
+            "amount": 50,
+            "step": 1
+          },
+          {
+            "id": "Lime_juice",
+            "name": "Сок лайма",
+            "amount": 70,
+            "step": 2
+          }
+        ],
+        "ingredients": [
+          {
+            "name": "Лед",
+            "amount": "100 гр"
+          },
+          {
+            "name": "Коктейльная вишня",
+            "amount": "1 шт"
+          },
+          {
+            "name": "Долька апельсина",
+            "amount": "1 шт"
+          }
+        ],
+        "description": "Простой коктейль",
+        "recipe": [
+          "Положите в бокал лед",
+          "Поставьте в место для стакана"
+        ]
+      },
+      {
+        "name": "Отвертка",
+        "bar_ingredients": [
+          {
+            "id": "Vodka",
+            "name": "Водка",
+            "amount": 50,
+            "step": 1
+          },
+          {
+            "id": "Orange_Juice",
+            "name": "Апельсиновый сок",
+            "amount": 150,
+            "step": 2
+          }
+        ],
+        "ingredients": [
+          {
+            "name": "Лед",
+            "amount": "100 гр"
+          }
+        ],
+        "description": "Простой коктейль",
+        "recipe": [
+          "Положите в бокал лед",
+          "Поставьте в место для стакана"
+        ]
+      },
+      {
+        "name": "Мартини Лимонный",
+        "bar_ingredients": [
+          {
+            "id": "Vodka",
+            "name": "Водка",
+            "amount": 25,
+            "step": 1
+          },
+          {
+            "id": "Lime_juice",
+            "name": "Сок лайма",
+            "amount": 70,
+            "step": 2
+          }
+        ],
+        "ingredients": [
+          {
+            "name": "Лед",
+            "amount": "100 гр"
+          }
+        ],
+        "description": "Простой коктейль",
+        "recipe": [
+          "Положите в бокал лед",
+          "Поставьте в место для стакана"
+        ]
+      },
+      {
+        "name": "Кола",
+        "bar_ingredients": [
+          {
+            "id": "Cola",
+            "name": "Кола",
+            "amount": 220,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Ром",
+        "bar_ingredients": [
+          {
+            "id": "Rum",
+            "name": "Ром",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Текила",
+        "bar_ingredients": [
+          {
+            "id": "Tequila",
+            "name": "Текила",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Водка",
+        "bar_ingredients": [
+          {
+            "id": "Vodka",
+            "name": "Водка",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Швепс",
+        "bar_ingredients": [
+          {
+            "id": "Schweppes",
+            "name": "Швепс",
+            "amount": 220,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Виски",
+        "bar_ingredients": [
+          {
+            "id": "Whiskey",
+            "name": "Виски",
+            "amount": 50,
+            "step": 1
+          }
+        ],
+        "ingredients": [
         ]
       }
     ]
