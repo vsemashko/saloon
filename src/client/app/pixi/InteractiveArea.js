@@ -29,11 +29,15 @@ function InteractiveArea(stage, options) {
 
 
     that.tap = function() {
-        options.onClick(that.stage);
+        if (that.interactive) {
+            options.onClick(that.stage);
+        }
     };
 
     that.click = function() {
-        options.onClick(that.stage);
+        if (that.interactive) {
+            options.onClick(that.stage);
+        }
     };
 }
 

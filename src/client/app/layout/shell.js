@@ -239,7 +239,10 @@
                 sizes: MAKE_COCKTAIL_BUTTON_SIZES,
                 texture: stage.resources.MAKE_BUTTON.texture,
                 onClick: function() {
-                    prepareCocktail();
+                    makeCocktailButton.interactive = false;
+                    prepareCocktail().then(function() {
+                        makeCocktailButton.interactive = true;
+                    });
                 }
             });
             currentScene.addChild(makeCocktailButton);
