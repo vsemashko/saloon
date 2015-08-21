@@ -3,6 +3,7 @@
     "data": [
       {
         "name": "Белый Русский",
+        "image": "content/cocktails/white-russian.png",
         "bar_ingredients": [
           {
             "id": "Vodka",
@@ -13,7 +14,7 @@
           {
             "id": "Kahlua",
             "name": "Калуа",
-            "amount": 30,
+            "amount": 20,
             "step": 2
           },
           {
@@ -56,7 +57,7 @@
           {
             "id": "Lime_juice",
             "name": "Сок лайма",
-            "amount": 30,
+            "amount": 20,
             "step": 3
           }
         ],
@@ -84,6 +85,7 @@
       },
       {
         "name": "Виски с колой",
+        "image": "content/cocktails/whiskey_cola.png",
         "bar_ingredients": [
           {
             "id": "Whiskey",
@@ -94,7 +96,7 @@
           {
             "id": "Cola",
             "name": "Кола",
-            "amount": 100,
+            "amount": 150,
             "step": 2
           }
         ],
@@ -112,6 +114,7 @@
       },
       {
         "name": "Водка со швепсом",
+        "image": "content/cocktails/vodka-shweppes.png",
         "bar_ingredients": [
           {
             "id": "Vodka",
@@ -140,6 +143,7 @@
       },
       {
         "name": "Текила санрайз",
+        "image": "content/cocktails/tequila_sunrise.png",
         "bar_ingredients": [
           {
             "id": "Tequila",
@@ -156,7 +160,7 @@
           {
             "id": "Grenadine",
             "name": "Гренадин",
-            "amount": 20,
+            "amount": 5,
             "step": 3
           }
         ],
@@ -202,6 +206,7 @@
       },
       {
         "name": "Виски сауэр",
+        "image": "content/cocktails/whiskey-sour.jpg",
         "bar_ingredients": [
           {
             "id": "Whiskey",
@@ -212,7 +217,7 @@
           {
             "id": "Lime_juice",
             "name": "Сок лайма",
-            "amount": 70,
+            "amount": 50,
             "step": 2
           }
         ],
@@ -238,6 +243,7 @@
       },
       {
         "name": "Отвертка",
+        "image": "content/cocktails/screwdriver.png",
         "bar_ingredients": [
           {
             "id": "Vodka",
@@ -266,6 +272,7 @@
       },
       {
         "name": "Мартини Лимонный",
+        "image": "content/cocktails/margatini.png",
         "bar_ingredients": [
           {
             "id": "Vodka",
@@ -294,6 +301,7 @@
       },
       {
         "name": "Кола",
+        "image": "content/cocktails/cocacola.png",
         "bar_ingredients": [
           {
             "id": "Cola",
@@ -306,7 +314,42 @@
         ]
       },
       {
+        "name": "Швепс",
+        "image": "content/cocktails/vodka-shweppes.png",
+        "bar_ingredients": [
+          {
+            "id": "Schweppes",
+            "name": "Швепс",
+            "amount": 200,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
+        "name": "Куба Либре",
+        "image": "content/cocktails/whiskey_cola.png",
+        "bar_ingredients": [
+          {
+            "id": "Rum",
+            "name": "Ром",
+            "amount": 50,
+            "step": 1
+          },
+          {
+            "id": "Cola",
+            "name": "Кола",
+            "amount": 150,
+            "step": 1
+          }
+        ],
+        "ingredients": [
+        ]
+      },
+      {
         "name": "Ром",
+        "image": "content/cocktails/rum-shot.png",
         "bar_ingredients": [
           {
             "id": "Rum",
@@ -320,6 +363,7 @@
       },
       {
         "name": "Текила",
+        "image": "content/cocktails/tequila.jpg",
         "bar_ingredients": [
           {
             "id": "Tequila",
@@ -333,6 +377,7 @@
       },
       {
         "name": "Водка",
+        "image": "content/cocktails/ShotGlass.png",
         "bar_ingredients": [
           {
             "id": "Vodka",
@@ -346,6 +391,7 @@
       },
       {
         "name": "Швепс",
+        "image": "content/cocktails/vodka-shweppes.png",
         "bar_ingredients": [
           {
             "id": "Schweppes",
@@ -359,6 +405,7 @@
       },
       {
         "name": "Виски",
+        "image": "content/cocktails/whiskey.png",
         "bar_ingredients": [
           {
             "id": "Whiskey",
