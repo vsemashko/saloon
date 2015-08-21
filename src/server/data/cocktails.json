@@ -314,20 +314,6 @@
         ]
       },
       {
-        "name": "Швепс",
-        "image": "content/cocktails/vodka-shweppes.png",
-        "bar_ingredients": [
-          {
-            "id": "Schweppes",
-            "name": "Швепс",
-            "amount": 200,
-            "step": 1
-          }
-        ],
-        "ingredients": [
-        ]
-      },
-      {
         "name": "Куба Либре",
         "image": "content/cocktails/whiskey_cola.png",
         "bar_ingredients": [
