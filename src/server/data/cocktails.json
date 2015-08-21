@@ -3,7 +3,6 @@
     "data": [
       {
         "name": "Белый Русский",
-        "image": "content/cocktails/white-russian.png",
         "bar_ingredients": [
           {
             "id": "Vodka",
@@ -206,7 +205,7 @@
       },
       {
         "name": "Виски сауэр",
-        "image": "content/cocktails/whiskey-sour.jpg",
+        "image": "content/cocktails/Whiskey-Sour.png",
         "bar_ingredients": [
           {
             "id": "Whiskey",
