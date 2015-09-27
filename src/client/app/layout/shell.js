@@ -20,13 +20,16 @@
         var SMALL_GEAR = "content/images/small_gear.png";
         var DEFAULT_COCKTAIL = "content/images/default-cocktail.png";
         var MAKE_BUTTON = "content/images/make.png";
+        var MAKE_BUTTON_HIGHLIGHTED = "content/images/make_highlighted.png";
         var VOICE_BUTTON = "content/images/voice.png";
         var BACK_BUTTON = "content/images/back.png";
-        var DISPLAY =  {x: 962, y: 553};
+        var WAIT_IMAGE = "content/images/bartender.png";
+        var DISPLAY = {x: 962, y: 553};
         var PREVIOUS_BUTTON_SIZES = [40, 255, 90, 90];
         var NEXT_BUTTON_SIZES = [825, 255, 90, 90];
         var START_BUTTON_SIZES = [425, 340, 125, 125];
-        var MAKE_COCKTAIL_BUTTON_SIZES = [815, 425, 100, 100];
+        var WAIT_IMAGE_SIZES = [360, 165, 384, 330];
+        var MAKE_COCKTAIL_BUTTON_SIZES = [800, 400, 150, 150];
         var VOICE_BUTTON_SIZES = [35, 425, 100, 100];
         var BACK_BUTTON_SIZES = [35, 15, 100, 100];
         var INGREDIENT_START_POSITION = {x: 530, y: 160};
@@ -39,10 +42,10 @@
         vm.currentCocktail = {};
         vm.showApp = false;
 
-        $rootScope.safeApply = function(fn) {
+        $rootScope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
-            if(phase == '$apply' || phase == '$digest') {
-                if(fn && (typeof(fn) === 'function')) {
+            if (phase == '$apply' || phase == '$digest') {
+                if (fn && (typeof(fn) === 'function')) {
                     fn();
                 }
             } else {
@@ -50,10 +53,8 @@
             }
         };
 
-        window.addEventListener('orientationchange', function ()
-        {
-            if (window.innerHeight > window.innerWidth)
-            {
+        window.addEventListener('orientationchange', function () {
+            if (window.innerHeight > window.innerWidth) {
                 document.getElementsByTagName('body').style.transform = "rotate(90deg)";
             }
         });
@@ -67,7 +68,7 @@
 
         function activate() {
             logger.success(config.appTitle + ' loaded!', null);
-            getCocktails().then(function(data) {
+            getCocktails().then(function (data) {
                 vm.currentCocktail = data[0];
                 var stage = activateScene(data);
                 dataservice.ready().then(function () {
@@ -89,6 +90,7 @@
                     annyang.debug(true);
                     annyang.setLanguage("ru");
                     //annyang.start();
+                    vm.isBusy = false;
                 });
             });
         }
@@ -98,10 +100,10 @@
 
             var loader = PIXI.loader;
 
-            _.each(data, function(item) {
-               if (item.image) {
-                   loader.add(item.name, item.image);
-               }
+            _.each(data, function (item) {
+                if (item.image) {
+                    loader.add(item.name, item.image);
+                }
             });
 
             loader
@@ -113,8 +115,10 @@
                 .add('SMALL_GEAR', SMALL_GEAR)
                 .add('DEFAULT_COCKTAIL', DEFAULT_COCKTAIL)
                 .add('MAKE_BUTTON', MAKE_BUTTON)
+                .add('MAKE_BUTTON_HIGHLIGHTED', MAKE_BUTTON_HIGHLIGHTED)
                 .add('VOICE_BUTTON', VOICE_BUTTON)
                 .add('BACK_BUTTON', BACK_BUTTON)
+                .add('WAIT_IMAGE', WAIT_IMAGE)
                 .add('FULL_BAR_IMAGE', FULL_BAR_IMAGE)
                 .add('SHELF_IMAGE', SHELF_IMAGE)
                 .load(function (loader, resources) {
@@ -122,8 +126,8 @@
                     var splashScreen = new PIXI.Sprite(resources.SPLASH_SCREEN_IMAGE.texture);
                     var playButton = new InteractiveArea(stage, {
                         sizes: START_BUTTON_SIZES,
-                        onClick: function(stage) {
-                            setTimeout(function() {
+                        onClick: function (stage) {
+                            setTimeout(function () {
                                 stage.removeChildren();
                                 createFullBarScene(stage, data);
                             })
@@ -135,10 +139,10 @@
                     renderer.view.className = "rendererView";
                     $(renderer.view).on('touchstart click', goFullscreen);
                     $('.canvas').append(renderer.view);
-                    requestAnimationFrame( animate );
+                    requestAnimationFrame(animate);
 
                     function animate() {
-                        requestAnimationFrame( animate );
+                        requestAnimationFrame(animate);
                         if (!vm.showApp) {
                             renderer.render(stage);
                         }
@@ -158,14 +162,20 @@
             gear.x = 875;
             gear.y = 50;
             gear.pivot = new PIXI.Point(25, 25);
-            gear.tap = function() {
-                $rootScope.safeApply(function() {
+            gear.tap = function () {
+                if (vm.isBusy) {
+                    return;
+                }
+                $rootScope.safeApply(function () {
                     vm.showApp = true;
                     $location.path('/pumps');
                 });
             };
-            gear.click = function() {
-                $rootScope.safeApply(function() {
+            gear.click = function () {
+                if (vm.isBusy) {
+                    return;
+                }
+                $rootScope.safeApply(function () {
                     vm.showApp = true;
                     $location.path('/pumps');
                 });
@@ -179,14 +189,20 @@
 
             var smallGear = new PIXI.Sprite(stage.resources.SMALL_GEAR.texture);
             smallGear.interactive = true;
-            smallGear.tap = function() {
-                $rootScope.safeApply(function() {
+            smallGear.tap = function () {
+                if (vm.isBusy) {
+                    return;
+                }
+                $rootScope.safeApply(function () {
                     vm.showApp = true;
                     $location.path('/pumps');
                 });
             };
-            smallGear.click = function() {
-                $rootScope.safeApply(function() {
+            smallGear.click = function () {
+                if (vm.isBusy) {
+                    return;
+                }
+                $rootScope.safeApply(function () {
                     vm.showApp = true;
                     $location.path('/pumps');
                 });
@@ -199,6 +215,7 @@
                 requestAnimationFrame(animateSmallGear);
                 smallGear.rotation -= 0.02;
             }
+
             scene.addChild(gear);
             scene.addChild(smallGear);
         }
@@ -214,8 +231,8 @@
             signBoard.y = -25;
             signBoard.x = 175;
             var text = new PIXI.Text(currentScene.data.name, {
-                font:"35px Westerlandc",
-                fill:"white",
+                font: "35px Westerlandc",
+                fill: "white",
                 align: 'center',
                 wordWrap: true,
                 wordWrapWidth: 300
@@ -225,8 +242,6 @@
             signBoard.addChild(text);
             currentScene.addChild(signBoard);
 
-
-
             var cocktail = data.image ? new PIXI.Sprite(stage.resources[data.name].texture) : new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
             cocktail.interactive = true;
             cocktail.x = 200 + (300 - cocktail.width) / 2;
@@ -235,22 +250,60 @@
             currentScene.addChild(cocktail);
             addGears(stage, currentScene);
 
+            var makeCocktailClickHandler = function () {
+                makeCocktailButtonHighlighted.visible = true;
+                makeCocktailButtonHighlighted.interactive = false;
+                backButton.interactive = false;
+                makeCocktailButton.interactive = false;
+                vm.isBusy = true;
+                stage.swappableContainer.interactive = false;
+                var waitImage = new InteractiveArea(stage, {
+                    sizes: WAIT_IMAGE_SIZES,
+                    texture: stage.resources.WAIT_IMAGE.texture
+                });
+                currentScene.addChild(waitImage);
+                prepareCocktail().then(function () {
+                    vm.isBusy = false;
+                    stage.swappableContainer.interactive = true;
+                    makeCocktailButton.interactive = true;
+                    makeCocktailButtonHighlighted.interactive = true;
+                    backButton.interactive = true;
+                    currentScene.removeChild(waitImage);
+                });
+            };
+
+            var makeCocktailButtonHighlighted = new InteractiveArea(stage, {
+                sizes: MAKE_COCKTAIL_BUTTON_SIZES,
+                texture: stage.resources.MAKE_BUTTON_HIGHLIGHTED.texture,
+                onClick: makeCocktailClickHandler
+            });
             var makeCocktailButton = new InteractiveArea(stage, {
                 sizes: MAKE_COCKTAIL_BUTTON_SIZES,
                 texture: stage.resources.MAKE_BUTTON.texture,
-                onClick: function() {
-                    makeCocktailButton.interactive = false;
-                    prepareCocktail().then(function() {
-                        makeCocktailButton.interactive = true;
-                    });
-                }
+                onClick: makeCocktailClickHandler
             });
+            var showHighlightedButton = false;
+            requestAnimationFrame(animateMakeCocktailButton);
+            function animateMakeCocktailButton() {
+                setTimeout(function () {
+                    requestAnimationFrame(animateMakeCocktailButton);
+                    if (makeCocktailButton.interactive) {
+                        makeCocktailButtonHighlighted.visible = !showHighlightedButton;
+                        showHighlightedButton = !showHighlightedButton;
+                    } else {
+                        makeCocktailButtonHighlighted.visible = true;
+                    }
+                }, 1000);
+
+            }
+
             currentScene.addChild(makeCocktailButton);
+            currentScene.addChild(makeCocktailButtonHighlighted);
 
             var voiceButton = new InteractiveArea(stage, {
                 sizes: VOICE_BUTTON_SIZES,
                 texture: stage.resources.VOICE_BUTTON.texture,
-                onClick: function() {
+                onClick: function () {
                 }
             });
             currentScene.addChild(voiceButton);
@@ -258,8 +311,8 @@
             var backButton = new InteractiveArea(stage, {
                 sizes: BACK_BUTTON_SIZES,
                 texture: stage.resources.BACK_BUTTON.texture,
-                onClick: function() {
-                    setTimeout(function() {
+                onClick: function () {
+                    setTimeout(function () {
                         stage.removeChildren();
                         createFullBarScene(stage, stage.data);
                     });
@@ -269,8 +322,11 @@
 
             var allIngredients = data.bar_ingredients.concat(data.ingredients);
 
-            _.each(allIngredients, function(ingredient, index) {
-                var text = new PIXI.Text(ingredient.name + " " + ingredient.amount, {font:"18px Lcchalk", fill:"white"});
+            _.each(allIngredients, function (ingredient, index) {
+                var text = new PIXI.Text(ingredient.name + " " + ingredient.amount, {
+                    font: "18px Lcchalk",
+                    fill: "white"
+                });
                 text.x = INGREDIENT_START_POSITION.x;
                 text.y = INGREDIENT_START_POSITION.y + index * INGREDIENT_OFFSET;
                 currentScene.addChild(text);
@@ -290,7 +346,7 @@
             var emptyContainer = new PIXI.Graphics();
             emptyContainer.interactive = true;
             emptyContainer.hitArea = new PIXI.Rectangle(0, 0, DISPLAY.x, realHeight + DISPLAY.y);
-            emptyContainer.touchmove = function(interactionData) {
+            emptyContainer.touchmove = function (interactionData) {
                 if (emptyContainer.interactive) {
                     finalPoint = interactionData.data.getLocalPosition(this.parent);
                     var xAbs = Math.abs(initialPoint.x - finalPoint.x);
@@ -316,7 +372,7 @@
             var voiceButton = new InteractiveArea(stage, {
                 sizes: VOICE_BUTTON_SIZES,
                 texture: stage.resources.VOICE_BUTTON.texture,
-                onClick: function() {
+                onClick: function () {
                 }
             });
 
@@ -326,26 +382,26 @@
                 shelf.x = 200;
                 shelf.y = 150 + 200 * i;
                 emptyContainer.addChild(shelf);
-                for (var j = 0; j < 2 && i*2 + j < data.length; j++) {
-                    var item = data[i*2 + j];
+                for (var j = 0; j < 2 && i * 2 + j < data.length; j++) {
+                    var item = data[i * 2 + j];
                     var cocktail = item.image ? PIXI.Sprite.fromImage(item.image) : new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
                     cocktail.interactive = true;
                     cocktail.data = item;
                     cocktail.scale.x = 0.5;
                     cocktail.scale.y = 0.5;
-                    cocktail.x = 200 + 300 + ( j % 2 === 0 ? -cocktail.width : 0);
+                    cocktail.x = 200 + 300 + (j % 2 === 0 ? -cocktail.width : 0);
                     cocktail.y = 150 + 20 - cocktail.height + i * 200;
-                    cocktail.tap = function() {
+                    cocktail.tap = function () {
                         var item = this.data;
-                        setTimeout(function() {
+                        setTimeout(function () {
                             vm.currentCocktail = item;
                             createBarScene(stage, data);
                         });
                     };
 
                     var text = new PIXI.Text(item.name, {
-                        font:"35px Westerlandc",
-                        fill:"white",
+                        font: "35px Westerlandc",
+                        fill: "white",
                         align: 'center',
                         wordWrap: true,
                         wordWrapWidth: 300 - cocktail.width
@@ -379,25 +435,33 @@
                 {
                     next: goToCocktail,
                     previous: goToCocktail,
-                    current: createCocktailScene(stage, {x:0, y:0}, vm.currentCocktail, stage.resources.BAR_IMAGE.texture),
+                    current: createCocktailScene(stage, {
+                        x: 0,
+                        y: 0
+                    }, vm.currentCocktail, stage.resources.BAR_IMAGE.texture),
                     items: data,
-                    onSwapLeft: function() {
+                    onSwapLeft: function () {
                     },
-                    onSwapRight:function() {
+                    onSwapRight: function () {
                     }
                 });
+            stage.swappableContainer = swappableContainer;
             stage.addChild(swappableContainer);
             swappableContainer.current.bringToFront();
             var previous = new InteractiveArea(stage, {
                 sizes: PREVIOUS_BUTTON_SIZES,
-                onClick: function() {
-                    swappableContainer.onSwapRight();
+                onClick: function () {
+                    if (!vm.isBusy) {
+                        swappableContainer.onSwapRight();
+                    }
                 }
             });
             var next = new InteractiveArea(stage, {
                 sizes: NEXT_BUTTON_SIZES,
-                onClick: function() {
-                    swappableContainer.onSwapLeft();
+                onClick: function () {
+                    if (!vm.isBusy) {
+                        swappableContainer.onSwapLeft();
+                    }
                 }
             });
             swappableContainer.addChild(next);

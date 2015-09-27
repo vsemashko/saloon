@@ -1,9 +1,8 @@
-
 /**
  * Created by Vadim Chadyuk on 13.08.2015.
  */
 
-PIXI.Container.prototype.bringToFront = function() {
+PIXI.Container.prototype.bringToFront = function () {
     if (this.parent) {
         var parent = this.parent;
         parent.removeChild(this);
@@ -11,16 +10,13 @@ PIXI.Container.prototype.bringToFront = function() {
     }
 };
 
-PIXI.Container.prototype.removeChild = function(child)
-{
-    var index = this.children.indexOf( child );
+PIXI.Container.prototype.removeChild = function (child) {
+    var index = this.children.indexOf(child);
 
-    if ( index !== -1 )
-    {
+    if (index !== -1) {
         this.removeChildren(index, index + 1);
     }
-    else
-    {
+    else {
         throw new Error(child + " The supplied DisplayObject must be a child of the caller " + this);
     }
 };
@@ -71,7 +67,7 @@ function SwappableContainer(stage, display, options) {
 
 SwappableContainer.prototype = Object.create(PIXI.Graphics.prototype);
 
-SwappableContainer.prototype.onSwapLeft = function() {
+SwappableContainer.prototype.onSwapLeft = function () {
     var that = this;
     var nextItem = that.getNextItem();
     if (that.interactive && nextItem) {
@@ -94,7 +90,7 @@ SwappableContainer.prototype.onSwapLeft = function() {
     }
 };
 
-SwappableContainer.prototype.onSwapRight = function() {
+SwappableContainer.prototype.onSwapRight = function () {
     var that = this;
     var previousItems = that.getPreviousItem();
     if (that.interactive && previousItems) {
@@ -117,14 +113,14 @@ SwappableContainer.prototype.onSwapRight = function() {
     }
 };
 
-SwappableContainer.prototype.getNextItem = function() {
+SwappableContainer.prototype.getNextItem = function () {
     var that = this;
     var currentItem = that.current.data;
     var currentIndex = that.items.indexOf(currentItem);
     return that.items[currentIndex + 1];
 };
 
-SwappableContainer.prototype.getPreviousItem = function() {
+SwappableContainer.prototype.getPreviousItem = function () {
     var that = this;
     var currentItem = that.current.data;
     var currentIndex = that.items.indexOf(currentItem);
