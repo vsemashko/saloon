@@ -21,14 +21,17 @@
         var DEFAULT_COCKTAIL = "content/images/default-cocktail.png";
         var MAKE_BUTTON = "content/images/make.png";
         var MAKE_BUTTON_HIGHLIGHTED = "content/images/make_highlighted.png";
+        var MAKE_BUTTON_DISABLED = "content/images/make_disabled.png";
         var VOICE_BUTTON = "content/images/voice.png";
         var BACK_BUTTON = "content/images/back.png";
         var WAIT_IMAGE = "content/images/bartender.png";
+        var ERROR_BOARD = "content/images/error_board.png";
         var DISPLAY = {x: 962, y: 553};
         var PREVIOUS_BUTTON_SIZES = [40, 255, 90, 90];
         var NEXT_BUTTON_SIZES = [825, 255, 90, 90];
         var START_BUTTON_SIZES = [425, 340, 125, 125];
         var WAIT_IMAGE_SIZES = [360, 165, 384, 330];
+        var ERROR_BOARD_SIZES = [360, 165, 384, 330];
         var MAKE_COCKTAIL_BUTTON_SIZES = [800, 400, 150, 150];
         var VOICE_BUTTON_SIZES = [35, 425, 100, 100];
         var BACK_BUTTON_SIZES = [35, 15, 100, 100];
@@ -40,6 +43,7 @@
         vm.isBusy = true;
         vm.showSplash = true;
         vm.currentCocktail = {};
+        vm.availableIngridients = [];
         vm.showApp = false;
 
         $rootScope.safeApply = function (fn) {
@@ -68,7 +72,7 @@
 
         function activate() {
             logger.success(config.appTitle + ' loaded!', null);
-            getCocktails().then(function (data) {
+            getAvailableIngredients().then(getCocktails).then(function (data) {
                 vm.currentCocktail = data[0];
                 var stage = activateScene(data);
                 dataservice.ready().then(function () {
@@ -97,6 +101,7 @@
 
         function activateScene(data) {
             var stage = new PIXI.Stage(0x000000, true);
+            vm.stage = stage;
 
             var loader = PIXI.loader;
 
@@ -116,9 +121,11 @@
                 .add('DEFAULT_COCKTAIL', DEFAULT_COCKTAIL)
                 .add('MAKE_BUTTON', MAKE_BUTTON)
                 .add('MAKE_BUTTON_HIGHLIGHTED', MAKE_BUTTON_HIGHLIGHTED)
+                .add('MAKE_BUTTON_DISABLED', MAKE_BUTTON_DISABLED)
                 .add('VOICE_BUTTON', VOICE_BUTTON)
                 .add('BACK_BUTTON', BACK_BUTTON)
                 .add('WAIT_IMAGE', WAIT_IMAGE)
+                .add('ERROR_BOARD', ERROR_BOARD)
                 .add('FULL_BAR_IMAGE', FULL_BAR_IMAGE)
                 .add('SHELF_IMAGE', SHELF_IMAGE)
                 .load(function (loader, resources) {
@@ -154,6 +161,114 @@
         function goToCocktail(stage, position, data) {
             vm.currentCocktail = data;
             return createCocktailScene(stage, position, data, stage.resources.BAR_IMAGE.texture);
+        }
+
+        function addBackButton(stage, currentScene) {
+            var backButton = new InteractiveArea(stage, {
+                sizes: BACK_BUTTON_SIZES,
+                texture: stage.resources.BACK_BUTTON.texture,
+                onClick: function () {
+                    setTimeout(function () {
+                        stage.removeChildren();
+                        createFullBarScene(stage, stage.data);
+                    });
+                }
+            });
+            currentScene.addChild(backButton);
+            currentScene.backButton = backButton;
+        }
+
+        function checkMissingIngredients(data) {
+            var hasMissingIngredients = false;
+            var availableIngredientIds = _.map(vm.availableIngridients, "id");
+            _.each(data.bar_ingredients, function (ingredient) {
+                ingredient.missing = !_.contains(availableIngredientIds, ingredient.id);
+                hasMissingIngredients = hasMissingIngredients || ingredient.missing;
+            });
+            return hasMissingIngredients;
+        }
+
+        function createCocktailScene(stage, position, data, texture) {
+            // create a background..
+            var currentScene = new PIXI.Sprite(texture);
+            vm.currentScene = currentScene;
+            // add background to stage..
+            currentScene.x = position.x;
+            currentScene.data = data;
+
+            var allIngredientsExist = !checkMissingIngredients(data);
+            addCocktailNameBoard(stage, currentScene);
+            addCocktailImage(data, stage, currentScene);
+            addGears(stage, currentScene);
+            addVoiceButton(stage, currentScene);
+            addBackButton(stage, currentScene);
+            addIngredientsBoard(data, currentScene);
+            if (allIngredientsExist) {
+                addPrepareCocktailButton(stage, currentScene);
+            } else {
+                addDisabledPrepareCocktailButton(stage, currentScene);
+            }
+            stage.addChild(currentScene);
+            return currentScene;
+        }
+
+        function addDisabledPrepareCocktailButton(stage, currentScene) {
+            var makeCocktailButtonDisabled = new InteractiveArea(stage, {
+                sizes: MAKE_COCKTAIL_BUTTON_SIZES,
+                texture: stage.resources.MAKE_BUTTON_DISABLED.texture
+            });
+            currentScene.addChild(makeCocktailButtonDisabled);
+        }
+
+        function addIngredientsBoard(data, currentScene) {
+            var allIngredients = data.bar_ingredients.concat(data.ingredients);
+
+            _.each(allIngredients, function (ingredient, index) {
+                var text = new PIXI.Text(ingredient.name + " " + ingredient.amount, {
+                    font: "18px Lcchalk",
+                    fill: !ingredient.missing ? "white" : "red"
+                });
+                text.x = INGREDIENT_START_POSITION.x;
+                text.y = INGREDIENT_START_POSITION.y + index * INGREDIENT_OFFSET;
+                currentScene.addChild(text);
+            });
+        }
+
+        function addVoiceButton(stage, currentScene) {
+            var voiceButton = new InteractiveArea(stage, {
+                sizes: VOICE_BUTTON_SIZES,
+                texture: stage.resources.VOICE_BUTTON.texture,
+                onClick: function () {
+                }
+            });
+            currentScene.addChild(voiceButton);
+            currentScene.voiceButton = voiceButton;
+        }
+
+        function addCocktailImage(data, stage, currentScene) {
+            var cocktail = data.image ? new PIXI.Sprite(stage.resources[data.name].texture) : new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
+            cocktail.interactive = true;
+            cocktail.x = 200 + (300 - cocktail.width) / 2;
+            cocktail.y = 553 - 53 - cocktail.height;
+
+            currentScene.addChild(cocktail);
+        }
+
+        function addCocktailNameBoard(stage, currentScene) {
+            var signBoard = new PIXI.Sprite(stage.resources.SIGN_BOARD.texture);
+            signBoard.y = -25;
+            signBoard.x = 175;
+            var text = new PIXI.Text(currentScene.data.name, {
+                font: "35px Westerlandc",
+                fill: "white",
+                align: 'center',
+                wordWrap: true,
+                wordWrapWidth: 300
+            });
+            text.y = 100 + (100 - text.height) / 2;
+            text.x = 150 - text.width / 2;
+            signBoard.addChild(text);
+            currentScene.addChild(signBoard);
         }
 
         function addGears(stage, scene) {
@@ -220,40 +335,12 @@
             scene.addChild(smallGear);
         }
 
-        function createCocktailScene(stage, position, data, texture) {
-            // create a background..
-            var currentScene = new PIXI.Sprite(texture);
-            // add background to stage..
-            currentScene.x = position.x;
-            currentScene.data = data;
-
-            var signBoard = new PIXI.Sprite(stage.resources.SIGN_BOARD.texture);
-            signBoard.y = -25;
-            signBoard.x = 175;
-            var text = new PIXI.Text(currentScene.data.name, {
-                font: "35px Westerlandc",
-                fill: "white",
-                align: 'center',
-                wordWrap: true,
-                wordWrapWidth: 300
-            });
-            text.y = 100 + (100 - text.height) / 2;
-            text.x = 150 - text.width / 2;
-            signBoard.addChild(text);
-            currentScene.addChild(signBoard);
-
-            var cocktail = data.image ? new PIXI.Sprite(stage.resources[data.name].texture) : new PIXI.Sprite(stage.resources.DEFAULT_COCKTAIL.texture);
-            cocktail.interactive = true;
-            cocktail.x = 200 + (300 - cocktail.width) / 2;
-            cocktail.y = 553 - 53 - cocktail.height;
-
-            currentScene.addChild(cocktail);
-            addGears(stage, currentScene);
-
+        function addPrepareCocktailButton(stage, currentScene) {
             var makeCocktailClickHandler = function () {
                 makeCocktailButtonHighlighted.visible = true;
                 makeCocktailButtonHighlighted.interactive = false;
-                backButton.interactive = false;
+                currentScene.backButton.interactive = false;
+                currentScene.voiceButton.interactive = false;
                 makeCocktailButton.interactive = false;
                 vm.isBusy = true;
                 stage.swappableContainer.interactive = false;
@@ -267,7 +354,8 @@
                     stage.swappableContainer.interactive = true;
                     makeCocktailButton.interactive = true;
                     makeCocktailButtonHighlighted.interactive = true;
-                    backButton.interactive = true;
+                    currentScene.backButton.interactive = true;
+                    currentScene.voiceButton.interactive = true;
                     currentScene.removeChild(waitImage);
                 });
             };
@@ -299,41 +387,6 @@
 
             currentScene.addChild(makeCocktailButton);
             currentScene.addChild(makeCocktailButtonHighlighted);
-
-            var voiceButton = new InteractiveArea(stage, {
-                sizes: VOICE_BUTTON_SIZES,
-                texture: stage.resources.VOICE_BUTTON.texture,
-                onClick: function () {
-                }
-            });
-            currentScene.addChild(voiceButton);
-
-            var backButton = new InteractiveArea(stage, {
-                sizes: BACK_BUTTON_SIZES,
-                texture: stage.resources.BACK_BUTTON.texture,
-                onClick: function () {
-                    setTimeout(function () {
-                        stage.removeChildren();
-                        createFullBarScene(stage, stage.data);
-                    });
-                }
-            });
-            currentScene.addChild(backButton);
-
-            var allIngredients = data.bar_ingredients.concat(data.ingredients);
-
-            _.each(allIngredients, function (ingredient, index) {
-                var text = new PIXI.Text(ingredient.name + " " + ingredient.amount, {
-                    font: "18px Lcchalk",
-                    fill: "white"
-                });
-                text.x = INGREDIENT_START_POSITION.x;
-                text.y = INGREDIENT_START_POSITION.y + index * INGREDIENT_OFFSET;
-                currentScene.addChild(text);
-            });
-
-            stage.addChild(currentScene);
-            return currentScene;
         }
 
         function createFullBarScene(stage, data) {
@@ -475,10 +528,45 @@
             });
         }
 
+        function getAvailableIngredients() {
+            return dataservice.getPumpConfig().then(function (data) {
+                vm.availableIngridients = _.map(data, 'liquid');
+                return vm.availableIngridients;
+            });
+        }
+
         function prepareCocktail() {
             return dataservice.prepareCocktail(vm.currentCocktail).then(function (data) {
                 logger.success('Cocktail is served!');
+            }).catch(handleException);
+        }
+
+        function handleException(error) {
+            logger.error(error.data);
+            var errorBoard = new InteractiveArea(vm.stage, {
+                sizes: ERROR_BOARD_SIZES,
+                texture: vm.stage.resources.ERROR_BOARD.texture
             });
+            var errorText = new PIXI.Text('Отсутствует:', {
+                font: "30px Lcchalk",
+                fill: "red"
+            });
+            errorText.x = 400;
+            errorText.y = 200;
+            var missingIngridient = new PIXI.Text(error.data, {
+                font: "30px Lcchalk",
+                fill: "red"
+            });
+            missingIngridient.x = 400;
+            missingIngridient.y = 240;
+            vm.currentScene.addChild(errorBoard);
+            vm.currentScene.addChild(errorText);
+            vm.currentScene.addChild(missingIngridient);
+            setTimeout(function () {
+                vm.currentScene.removeChild(errorText);
+                vm.currentScene.removeChild(missingIngridient);
+                vm.currentScene.removeChild(errorBoard);
+            }, 2000);
         }
     }
 })();

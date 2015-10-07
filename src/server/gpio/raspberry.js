@@ -31,6 +31,12 @@ var Raspberry = function () {
             pump = initPump(config);
             vm.pumps.push(pump);
         }
+
+        var liquids = vm.dataService.getLiquids()[0].data;
+        vm.liquids = {};
+        for (i = 0, length = liquids.length; i < length; i++) {
+            vm.liquids[liquids[i].id] = liquids[i].name;
+        }
     }
 
     function initPump(config) {
@@ -55,7 +61,7 @@ var Raspberry = function () {
         var activePump = getPump(liquid),
             deferred = Q.defer();
         if (!activePump) {
-            deferred.resolve();
+            deferred.reject(vm.liquids[liquid]);
             return deferred.promise;
         }
         var flowMeasurer = initFlowMeasurer(activePump);
@@ -64,10 +70,14 @@ var Raspberry = function () {
             updateFlowMeasurer(flowMeasurer);
             printFlowMeasurements(flowMeasurer);
             vm.pulseCount = 0;
-            if (liquidIsPoured(amount, flowMeasurer) || liquidIsEnded(flowMeasurer)) {
+            if (liquidIsPoured(amount, flowMeasurer)) {
                 stopPouring(pourInterval, activePump);
                 vm.backlight.writeSync(0);
-                deferred.resolve();
+                deferred.resolve({success: true});
+            } else if (liquidIsEnded(flowMeasurer)) {
+                stopPouring(pourInterval, activePump);
+                vm.backlight.writeSync(0);
+                deferred.reject(vm.liquids[liquid]);
             }
 
         }, 100);

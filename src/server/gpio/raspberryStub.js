@@ -21,15 +21,40 @@ var Raspberry = function () {
         for (var i = 0, length = pumpsConfig.length; i < length; i++) {
             vm.pumps.push(pumpsConfig[i]);
         }
+
+        var liquids = vm.dataService.getLiquids()[0].data;
+        vm.liquids = {};
+        for (i = 0, length = liquids.length; i < length; i++) {
+            vm.liquids[liquids[i].id] = liquids[i].name;
+        }
     }
 
-    function pour(pump, amount) {
+    function pour(liquid, amount) {
         var deferred = Q.defer();
+        var activePump = getPump(liquid);
+
+        if (!activePump) {
+            deferred.reject(vm.liquids[liquid]);
+            return deferred.promise;
+        }
 
         setTimeout(function () {
-            deferred.resolve();
+            deferred.resolve({success: true});
         }, 3000);
         return deferred.promise;
+    }
+
+    function getPump(liquid) {
+        var activePump,
+            currentPump;
+        for (var i = 0, length = vm.pumps.length; i < length; i++) {
+            currentPump = vm.pumps[i];
+            if (currentPump.liquid.id === liquid) {
+                activePump = currentPump;
+                break;
+            }
+        }
+        return activePump;
     }
 
     function cleanupGPIO() {

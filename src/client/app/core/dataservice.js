@@ -49,7 +49,7 @@
         }
 
         function prepareCocktail(cocktail) {
-            return getPourResource().pour(cocktail.bar_ingredients).$promise.then(pourCocktailComplete).catch(handleException);
+            return getPourResource().pour(cocktail.bar_ingredients).$promise.then(pourCocktailComplete);
             function pourCocktailComplete(data) {
                 return data;
             }

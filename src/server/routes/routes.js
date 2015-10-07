@@ -9,7 +9,7 @@ var Routes = function (app) {
     app.get('/api/pump-config', getPumpConfiguration);
     app.post('/api/pump-config', savePumpConfiguration);
     app.post('/api/pour', pourLiquid);
-    app.post('/api/liquids', saveLiquidsConfiguration)
+    app.post('/api/liquids', saveLiquidsConfiguration);
 
     function getCocktails(req, res, next) {
         res.send(vm.dataService.getCocktails());
@@ -39,8 +39,12 @@ var Routes = function (app) {
 
     function pourLiquid(req, res, next) {
         var preparationSteps = req.body;
-        pourSequentially(preparationSteps).done(function () {
-            res.send({result: 'Liquid is ready!'});
+        pourSequentially(preparationSteps).done(function (error) {
+            if (!error) {
+                res.send({result: 'Коктейль готов!'});
+            } else {
+                return next(error);
+            }
         });
     }
 
@@ -62,6 +66,8 @@ var Routes = function (app) {
     function loop(promise, fn) {
         return promise.then(fn).then(function (wrapper) {
             return !wrapper.done ? loop(pour(wrapper.next), fn) : wrapper.value;
+        }, function (error) {
+            return error;
         });
     }
 };
