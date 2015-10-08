@@ -45,6 +45,7 @@
         vm.currentCocktail = {};
         vm.availableIngridients = [];
         vm.showApp = false;
+        vm.hideConfig = hideConfig;
 
         $rootScope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -541,6 +542,15 @@
             }).catch(handleException);
         }
 
+        function refreshScene() {
+            if (vm.stage.data) {
+                getAvailableIngredients().then(function () {
+                    vm.stage.removeChildren();
+                    createBarScene(vm.stage, vm.stage.data);
+                });
+            }
+        }
+
         function handleException(error) {
             logger.error(error.data);
             var errorBoard = new InteractiveArea(vm.stage, {
@@ -566,7 +576,13 @@
                 vm.currentScene.removeChild(errorText);
                 vm.currentScene.removeChild(missingIngridient);
                 vm.currentScene.removeChild(errorBoard);
+                refreshScene();
             }, 2000);
+        }
+
+        function hideConfig() {
+            vm.showApp = false;
+            refreshScene();
         }
     }
 })();

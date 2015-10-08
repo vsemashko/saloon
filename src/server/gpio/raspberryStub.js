@@ -18,6 +18,7 @@ var Raspberry = function () {
 
     function activate() {
         var pumpsConfig = vm.dataService.getPumpConfiguration()[0].data;
+        vm.pumpsConfig = pumpsConfig;
         for (var i = 0, length = pumpsConfig.length; i < length; i++) {
             vm.pumps.push(pumpsConfig[i]);
         }
@@ -37,7 +38,11 @@ var Raspberry = function () {
             deferred.reject(vm.liquids[liquid]);
             return deferred.promise;
         }
-
+        if (liquid === 'Vodka') {
+            removeLiquidFromPump(liquid);
+            deferred.reject(vm.liquids[liquid]);
+            return deferred.promise;
+        }
         setTimeout(function () {
             deferred.resolve({success: true});
         }, 3000);
@@ -55,6 +60,19 @@ var Raspberry = function () {
             }
         }
         return activePump;
+    }
+
+    function removeLiquidFromPump(liquid) {
+        for (var i = 0, length = vm.pumpsConfig.length; i < length; i++) {
+            if (vm.pumpsConfig[i].liquid.id === liquid) {
+                vm.pumpsConfig[i].liquid = {
+                    id: "empty",
+                    name: "-- Пусто --"
+                };
+                break;
+            }
+        }
+        vm.dataService.savePumpConfiguration(vm.pumpsConfig);
     }
 
     function cleanupGPIO() {

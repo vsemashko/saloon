@@ -32,7 +32,10 @@ var LocalDataService = function () {
     }
 
     function savePumpConfiguration(config) {
-        vm.jsonfileservice.saveJsonToFile('/../../data/pumpConfig_custom.json', config);
+        var storedConfig = [{
+            'data': config
+        }];
+        vm.jsonfileservice.saveJsonToFile('/../../data/pumpConfig_custom.json', storedConfig);
     }
 
     function saveLiquidsConfiguration(config) {

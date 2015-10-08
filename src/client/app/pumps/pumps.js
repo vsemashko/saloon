@@ -23,8 +23,12 @@
         activate();
 
         function init(pump) {
-            _.remove(vm.liquids, 'id', pump.liquid.id);
-            vm.liquids.unshift(pump.liquid);
+            var liquidIndex = _.findIndex(vm.liquids, 'id', pump.liquid.id);
+            if (liquidIndex >= 0) {
+                pump.liquid = vm.liquids[liquidIndex];
+            } else {
+                vm.liquids.unshift(pump.liquid);
+            }
             vm.selectedIngredient = pump.liquid;
         }
 
@@ -71,6 +75,7 @@
                     .toString(16)
                     .substring(1);
             }
+
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
                 s4() + '-' + s4() + s4() + s4();
         }

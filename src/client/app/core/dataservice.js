@@ -63,17 +63,14 @@
         }
 
         function savePumpConfig(config) {
-            var storedConfig = [{
-                'data': config
-            }];
-            return getPumpResource().save(storedConfig).$promise.then(getPumpsConfigComplete).catch(handleException);
+            return getPumpResource().save(config).$promise.then(getPumpsConfigComplete).catch(handleException);
             function getPumpsConfigComplete(data, status, headers, config) {
                 return data[0].data;
             }
         }
 
         function saveLiquidsConfig(config) {
-            _.each(config, function(item){
+            _.each(config, function (item) {
                 delete item.isNew;
             });
             var storedConfig = [{

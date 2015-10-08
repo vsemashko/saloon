@@ -25,6 +25,7 @@ var Raspberry = function () {
         var pumpsConfig = vm.dataService.getPumpConfiguration()[0].data,
             pump,
             config;
+        vm.pumpsConfig = pumpsConfig;
         vm.backlight = new GPIO(27, 'out');
         for (var i = 0, length = pumpsConfig.length; i < length; i++) {
             config = pumpsConfig[i];
@@ -77,6 +78,7 @@ var Raspberry = function () {
             } else if (liquidIsEnded(flowMeasurer)) {
                 stopPouring(pourInterval, activePump);
                 vm.backlight.writeSync(0);
+                removeLiquidFromPump(liquid);
                 deferred.reject(vm.liquids[liquid]);
             }
 
@@ -156,6 +158,19 @@ var Raspberry = function () {
         }
         vm.backlight.unexport();
         console.log('GPIO is cleaned');
+    }
+
+    function removeLiquidFromPump(liquid) {
+        for (var i = 0, length = vm.pumpsConfig.length; i < length; i++) {
+            if (vm.pumpsConfig[i].liquid.id === liquid) {
+                vm.pumpsConfig[i].liquid = {
+                    id: "empty",
+                    name: "-- Пусто --"
+                };
+                break;
+            }
+        }
+        vm.dataService.savePumpConfiguration(vm.pumpsConfig);
     }
 
 };
