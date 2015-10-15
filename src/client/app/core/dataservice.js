@@ -17,6 +17,7 @@
             getIngredients: getIngredients,
             getLiquids: getLiquids,
             prepareCocktail: prepareCocktail,
+            cleanupPump: cleanupPump,
             getPumpConfig: getPumpConfig,
             savePumpConfig: savePumpConfig,
             saveLiquidsConfig: saveLiquidsConfig,
@@ -51,6 +52,13 @@
         function prepareCocktail(cocktail) {
             return getPourResource().pour(cocktail.bar_ingredients).$promise.then(pourCocktailComplete);
             function pourCocktailComplete(data) {
+                return data;
+            }
+        }
+
+        function cleanupPump(pump) {
+            return getCleanupPumpResource().cleanup(pump).$promise.then(cleanupComplete);
+            function cleanupComplete(data) {
                 return data;
             }
         }
@@ -118,6 +126,19 @@
                 }
             };
             return $resource('/api/pour', {}, actions);
+        }
+
+        function getCleanupPumpResource() {
+            var actions = {
+                cleanup: {
+                    url: '/api/cleanup',
+                    method: "POST",
+                    data: {
+                        steps: "@steps"
+                    }
+                }
+            };
+            return $resource('/api/cleanup', {}, actions);
         }
 
         function getPourResource() {

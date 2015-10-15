@@ -10,6 +10,7 @@
                             <th numeric name="Pump pin"></th>
                             <th numeric name="Measurer pin"></th>
                             <th numeric name="Liquid"></th>
+                            <th numeric name="Clear pump"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -22,6 +23,9 @@
                                         ng-model="pump.liquid"
                                         ng-options="item as item.name for item in vm.liquids">
                                 </select>
+                            </td>
+                            <td>
+                                <md-button class="md-raised" ng-click="vm.clearPump(pump)">Clear</md-button>
                             </td>
                         </tr>
                         </tbody>

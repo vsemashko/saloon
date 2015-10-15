@@ -9,6 +9,7 @@ var Routes = function (app) {
     app.get('/api/pump-config', getPumpConfiguration);
     app.post('/api/pump-config', savePumpConfiguration);
     app.post('/api/pour', pourLiquid);
+    app.post('/api/cleanup', cleanupPump);
     app.post('/api/liquids', saveLiquidsConfiguration);
 
     function getCocktails(req, res, next) {
@@ -45,6 +46,13 @@ var Routes = function (app) {
             } else {
                 return next(error);
             }
+        });
+    }
+
+    function cleanupPump(req, res, next) {
+        var pump = req.body;
+        vm.raspberry.cleanupPump(pump).then(function (data) {
+            res.send({result: 'Pump is cleared'});
         });
     }
 

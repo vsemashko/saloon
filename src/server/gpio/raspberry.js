@@ -11,6 +11,7 @@ var Raspberry = function () {
     vm.dataService = require('../app.js').dataService;
 
     vm.pour = pour;
+    vm.cleanupPump = cleanupPump;
     vm.pulseCount = 0;
     vm.pumps = [];
     vm.backlight;
@@ -86,6 +87,25 @@ var Raspberry = function () {
         return deferred.promise;
     }
 
+    function cleanupPump(pump) {
+        var amount = 100;
+        var deferred = Q.defer();
+        var activePump = getPumpById(pump.pumpId);
+        var flowMeasurer = initFlowMeasurer(activePump);
+        activePump.gpio.writeSync(1);
+        var pourInterval = setInterval(function () {
+            updateFlowMeasurer(flowMeasurer);
+            printFlowMeasurements(flowMeasurer);
+            vm.pulseCount = 0;
+            if (liquidIsPoured(amount, flowMeasurer) || liquidIsEnded(flowMeasurer)) {
+                stopPouring(pourInterval, activePump);
+                vm.backlight.writeSync(0);
+                deferred.resolve({success: true});
+            }
+        }, 100);
+        return deferred.promise;
+    }
+
     function stopPouring(pourInterval, activePump) {
         clearInterval(pourInterval);
         activePump.gpio.writeSync(0);
@@ -123,6 +143,19 @@ var Raspberry = function () {
         for (var i = 0, length = vm.pumps.length; i < length; i++) {
             currentPump = vm.pumps[i];
             if (currentPump.liquid === liquid) {
+                activePump = currentPump;
+                break;
+            }
+        }
+        return activePump;
+    }
+
+    function getPumpById(pumpId) {
+        var activePump,
+            currentPump;
+        for (var i = 0, length = vm.pumps.length; i < length; i++) {
+            currentPump = vm.pumps[i];
+            if (currentPump.pumpId === pumpId) {
                 activePump = currentPump;
                 break;
             }

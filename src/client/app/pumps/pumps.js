@@ -18,6 +18,7 @@
         vm.savePumps = savePumps;
         vm.saveLiquids = saveLiquids;
         vm.addNewLiquid = addNewLiquid;
+        vm.clearPump = clearPump;
         vm.title = 'Pumps config';
 
         activate();
@@ -47,6 +48,12 @@
         function savePumps() {
             return dataservice.savePumpConfig(vm.pumps).then(function (data) {
                 logger.success('Pumps config saved');
+            });
+        }
+
+        function clearPump(pump) {
+            return dataservice.cleanupPump(pump).then(function (data) {
+                logger.success('Pump cleared');
             });
         }
 

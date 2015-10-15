@@ -7,6 +7,7 @@ var Raspberry = function () {
     vm.dataService = require('../app.js').dataService;
 
     vm.pour = pour;
+    vm.cleanupPump = cleanupPump;
     vm.pulseCount = 0;
     vm.pumps = [];
 
@@ -49,12 +50,34 @@ var Raspberry = function () {
         return deferred.promise;
     }
 
+    function cleanupPump(pump) {
+        var deferred = Q.defer();
+        var activePump = getPumpById(pump.pumpId);
+        setTimeout(function () {
+            deferred.resolve({success: true});
+        }, 3000);
+        return deferred.promise;
+    }
+
     function getPump(liquid) {
         var activePump,
             currentPump;
         for (var i = 0, length = vm.pumps.length; i < length; i++) {
             currentPump = vm.pumps[i];
             if (currentPump.liquid.id === liquid) {
+                activePump = currentPump;
+                break;
+            }
+        }
+        return activePump;
+    }
+
+    function getPumpById(pumpId) {
+        var activePump,
+            currentPump;
+        for (var i = 0, length = vm.pumps.length; i < length; i++) {
+            currentPump = vm.pumps[i];
+            if (currentPump.pumpId === pumpId) {
                 activePump = currentPump;
                 break;
             }
