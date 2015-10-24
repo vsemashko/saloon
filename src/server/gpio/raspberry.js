@@ -12,6 +12,7 @@ var Raspberry = function () {
 
     vm.pour = pour;
     vm.cleanupPump = cleanupPump;
+    vm.reloadConfig = reloadConfig;
     vm.pulseCount = 0;
     vm.pumps = [];
     vm.backlight;
@@ -190,6 +191,7 @@ var Raspberry = function () {
             currentPump.gpio.unexport();
             currentPump.flowSensor.unexport();
         }
+        vm.pumps.splice(0, vm.pumps.length);
         vm.backlight.unexport();
         console.log('GPIO is cleaned');
     }
@@ -205,6 +207,11 @@ var Raspberry = function () {
             }
         }
         vm.dataService.savePumpConfiguration(vm.pumpsConfig);
+    }
+
+    function reloadConfig() {
+        cleanupGPIO();
+        activate();
     }
 
 };

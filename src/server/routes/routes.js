@@ -30,6 +30,7 @@ var Routes = function (app) {
 
     function savePumpConfiguration(req, res, next) {
         vm.dataService.savePumpConfiguration(req.body);
+        vm.raspberry.reloadConfig();
         res.send(req.body);
     }
 

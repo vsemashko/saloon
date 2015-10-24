@@ -8,6 +8,7 @@ var Raspberry = function () {
 
     vm.pour = pour;
     vm.cleanupPump = cleanupPump;
+    vm.reloadConfig = reloadConfig;
     vm.pulseCount = 0;
     vm.pumps = [];
 
@@ -99,9 +100,13 @@ var Raspberry = function () {
     }
 
     function cleanupGPIO() {
-        pump1.unexport();
-        flowSensor.unexport();
+        vm.pumps.splice(0, vm.pumps.length);
         console.log('GPIO is cleaned');
+    }
+
+    function reloadConfig() {
+        cleanupGPIO();
+        activate();
     }
 
 };
