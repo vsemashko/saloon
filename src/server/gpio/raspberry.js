@@ -199,7 +199,7 @@ var Raspberry = function () {
             if (vm.pumpsConfig[i].liquid.id === liquid) {
                 vm.pumpsConfig[i].liquid = {
                     id: "empty",
-                    name: "-- Пусто --"
+                    name: "-- РџСѓСЃС‚Рѕ --"
                 };
                 break;
             }
