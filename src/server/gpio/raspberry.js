@@ -46,6 +46,7 @@ var Raspberry = function () {
         pump.gpio = new GPIO(config.pumpId, 'out');
         pump.flowSensor = new GPIO(config.measurerId, 'in', 'falling');
         pump.liquid = config.liquid.id;
+        pump.config = config;
         logPumpConfig(config);
         return pump;
     }
@@ -155,7 +156,7 @@ var Raspberry = function () {
             currentPump;
         for (var i = 0, length = vm.pumps.length; i < length; i++) {
             currentPump = vm.pumps[i];
-            if (currentPump.pumpId === pumpId) {
+            if (currentPump.config.pumpId === pumpId) {
                 activePump = currentPump;
                 break;
             }
