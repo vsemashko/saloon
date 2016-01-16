@@ -40,7 +40,9 @@
                     <md-content class="md-padding" flex="33">
                         <md-list>
                             <md-list-item ng-repeat-start="ingredient in vm.liquids">
-                                <md-button style="min-width: 100%" ng-click="vm.selectedIngredient = ingredient">{{ ingredient.name }}</md-button>
+                                <md-button style="min-width: 100%" ng-click="vm.selectedIngredient = ingredient">{{
+                                    ingredient.name }}
+                                </md-button>
                             </md-list-item>
                             <md-divider ng-repeat-end></md-divider>
                             <md-list-item>
@@ -53,7 +55,8 @@
                     <md-content layout-padding>
                         <md-input-container>
                             <label>Id</label>
-                            <input ng-model="vm.selectedIngredient.id" type="text" ng-disabled="!vm.selectedIngredient.isNew">
+                            <input ng-model="vm.selectedIngredient.id" type="text"
+                                   ng-disabled="!vm.selectedIngredient.isNew">
                         </md-input-container>
                         <md-input-container>
                             <label>Name</label>
@@ -65,8 +68,60 @@
             </div>
         </md-tab>
         <md-tab label="Cocktails">
-            <md-content class="md-padding">
-            </md-content>
+            <div layout="row" layout-wrap>
+                <div flex="33" style="height: 100%; overflow-x:hidden; overflow-y: auto">
+                    <md-content class="md-padding" flex="33">
+                        <md-list>
+                            <md-list-item ng-repeat-start="cocktail in vm.cocktails">
+                                <md-button style="min-width: 100%" ng-click="vm.selectCocktail(cocktail)">{{
+                                    cocktail.name }}
+                                </md-button>
+                            </md-list-item>
+                            <md-divider ng-repeat-end></md-divider>
+                            <md-list-item>
+                                <md-button style="min-width: 100%" ng-click="vm.addNewCocktail()">Add new</md-button>
+                            </md-list-item>
+                        </md-list>
+                    </md-content>
+                </div>
+                <div flex="66">
+                    <md-content layout-padding ng-show="vm.selectedCocktail">
+                        <md-input-container>
+                            <label>Name</label>
+                            <input ng-model="vm.selectedCocktail.name" type="text">
+                        </md-input-container>
+                        <md-content>
+                            <label>Bar Ingredients</label>
+                            <div ng-repeat="barIngredient in vm.selectedCocktail.bar_ingredients | orderBy:'step'">
+                                <div layout="row">
+                                    <md-input-container flex="30">
+                                        <label>Step</label>
+                                        <input ng-model="barIngredient.step" type="text">
+                                    </md-input-container>
+                                    <md-input-container flex="30">
+                                        <label>Ingredient</label>
+                                        <md-select ng-model="barIngredient.id">
+                                            <md-option ng-repeat="liquid in vm.liquids" value="{{liquid.id}}"
+                                                       ng-click="vm.changeCocktailIngredient(barIngredient, liquid)">
+                                                {{liquid.name}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container flex="30">
+                                        <label>Amount</label>
+                                        <input ng-model="barIngredient.amount" type="text">
+                                    </md-input-container>
+                                    <md-icon md-font-set="regular-font" ng-click="vm.removeIngredient(barIngredient)">
+                                        Remove
+                                    </md-icon>
+                                </div>
+                            </div>
+                            <md-button class="md-raised" ng-click="vm.addNewIngredient()">Add ingredient</md-button>
+                        </md-content>
+                        <md-button class="md-raised" ng-click="vm.saveCocktail()">Save</md-button>
+                    </md-content>
+                </div>
+            </div>
         </md-tab>
         <md-tab label="Exit" ng-click="shell.hideConfig()">
             <md-content class="md-padding">

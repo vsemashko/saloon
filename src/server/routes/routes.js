@@ -11,6 +11,7 @@ var Routes = function (app) {
     app.post('/api/pour', pourLiquid);
     app.post('/api/cleanup', cleanupPump);
     app.post('/api/liquids', saveLiquidsConfiguration);
+    app.post('/api/cocktails', saveCocktailsConfiguration);
 
     function getCocktails(req, res, next) {
         res.send(vm.dataService.getCocktails());
@@ -39,11 +40,16 @@ var Routes = function (app) {
         res.send(req.body);
     }
 
+    function saveCocktailsConfiguration(req, res, next) {
+        vm.dataService.saveCocktailsConfiguration(req.body);
+        res.send(req.body);
+    }
+
     function pourLiquid(req, res, next) {
         var preparationSteps = req.body;
         pourSequentially(preparationSteps).done(function (error) {
             if (!error) {
-                res.send({result: 'Коктейль готов!'});
+                res.send({result: 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!'});
             } else {
                 return next(error);
             }

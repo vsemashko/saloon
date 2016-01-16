@@ -21,6 +21,7 @@
             getPumpConfig: getPumpConfig,
             savePumpConfig: savePumpConfig,
             saveLiquidsConfig: saveLiquidsConfig,
+            saveCocktailsConfig: saveCocktailsConfig,
             ready: ready
         };
 
@@ -90,6 +91,19 @@
             }
         }
 
+        function saveCocktailsConfig(config) {
+            _.each(config, function (item) {
+                delete item.isNew;
+            });
+            var storedConfig = [{
+                'data': config
+            }];
+            return getCocktailsResource().save(storedConfig).$promise.then(getCocktailsConfigComplete).catch(handleException);
+            function getCocktailsConfigComplete(data, status, headers, config) {
+                return data[0].data;
+            }
+        }
+
         function getLiquidsResource() {
             var actions = {
                 get: {
@@ -107,6 +121,25 @@
                 }
             };
             return $resource('/api/liquids', {}, actions);
+        }
+
+        function getCocktailsResource() {
+            var actions = {
+                get: {
+                    url: '/api/cocktails',
+                    method: "GET",
+                    isArray: true
+                },
+                save: {
+                    url: '/api/cocktails',
+                    method: "POST",
+                    data: {
+                        config: '@config'
+                    },
+                    isArray: true
+                }
+            };
+            return $resource('/api/cocktails', {}, actions);
         }
 
         function getPumpResource() {

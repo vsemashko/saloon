@@ -318,6 +318,12 @@ gulp.task('serve-dev', function () {
     });
 });
 
+gulp.task('serve-test', function () {
+    serve({
+        mode: 'test'
+    });
+});
+
 /**
  * serve the build environment
  */

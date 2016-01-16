@@ -15,6 +15,7 @@
     function getRoutes() {
         return [
             {
+                state: 'pumps',
                 url: '/pumps',
                 config: {
                     templateUrl: 'app/pumps/pumps.html',

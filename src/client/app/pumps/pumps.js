@@ -14,10 +14,18 @@
         vm.init = init;
         vm.pumps = [];
         vm.liquids = [];
+        vm.cocktails = [];
 
         vm.savePumps = savePumps;
         vm.saveLiquids = saveLiquids;
+        vm.saveCocktail = saveCocktail;
         vm.addNewLiquid = addNewLiquid;
+        vm.addNewCocktail = addNewCocktail;
+        vm.selectCocktail = selectCocktail;
+        vm.changeCocktailIngredient = changeCocktailIngredient;
+        vm.addNewIngredient = addNewIngredient;
+        vm.removeIngredient = removeIngredient;
+
         vm.clearPump = clearPump;
         vm.title = 'Pumps config';
 
@@ -34,7 +42,7 @@
         }
 
         function activate() {
-            var promises = [getLiquids(), getPumps()];
+            var promises = [getLiquids(), getPumps(), getCocktails()];
             return $q.all(promises);
         }
 
@@ -63,16 +71,68 @@
             });
         }
 
+        function saveCocktail() {
+            return dataservice.saveCocktailsConfig(vm.cocktails).then(function (data) {
+                logger.success('Cocktails config saved');
+            });
+        }
+
         function addNewLiquid() {
             var newLiquid = {isNew: true, name: "Default", id: guid()};
             vm.liquids.push(newLiquid);
             vm.selectedIngredient = newLiquid;
         }
 
+        function addNewCocktail() {
+            var newCocktail = {isNew: true, name: "New", id: guid(), bar_ingredients: [], ingredients: []};
+            vm.cocktails.push(newCocktail);
+            vm.selectedCocktail = newCocktail;
+        }
+
+        function selectCocktail(coctail) {
+            vm.selectedCocktail = coctail;
+        }
+
+        function changeCocktailIngredient(ingredient, liquid) {
+            ingredient.id = liquid.id;
+            ingredient.name = liquid.name;
+        }
+
+        function getNextStep() {
+            var result = 1;
+            if (!_.isEmpty(vm.selectedCocktail.bar_ingredients)) {
+                result = vm.selectedCocktail.bar_ingredients[vm.selectedCocktail.bar_ingredients.length - 1].step + 1
+            }
+            return result;
+        }
+
+        function addNewIngredient() {
+            var nextStep = getNextStep();
+            var defaultLiquid = vm.liquids[0];
+            var newIngredient = {
+                step: nextStep,
+                amount: 50,
+                id: defaultLiquid.id,
+                name: defaultLiquid.name
+            };
+            vm.selectedCocktail.bar_ingredients.push(newIngredient);
+        }
+
+        function removeIngredient(ingredient) {
+            _.remove(vm.selectedCocktail.bar_ingredients, {id: ingredient.id});
+        }
+
         function getLiquids() {
             return dataservice.getLiquids().then(function (data) {
                 vm.liquids = data;
                 return vm.liquids;
+            });
+        }
+
+        function getCocktails() {
+            return dataservice.getCocktails().then(function (data) {
+                vm.cocktails = data;
+                return vm.cocktails;
             });
         }
 
