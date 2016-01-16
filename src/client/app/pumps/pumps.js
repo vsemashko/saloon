@@ -29,6 +29,12 @@
         vm.clearPump = clearPump;
         vm.title = 'Pumps config';
 
+        vm.imageOptions = [
+            {name: 'Long glass', value: 'content/cocktails/collins-glass.png'},
+            {name: 'Shot glass', value: 'content/cocktails/shot-glass.png'},
+            {name: 'Rock glass', value: 'content/cocktails/rock-glass.png'}
+        ];
+
         activate();
 
         function init(pump) {
@@ -84,7 +90,10 @@
         }
 
         function addNewCocktail() {
-            var newCocktail = {isNew: true, name: "New", id: guid(), bar_ingredients: [], ingredients: []};
+            var newCocktail = {
+                isNew: true, name: "New", id: guid(), bar_ingredients: [], ingredients: [],
+                image: vm.imageOptions[0].value
+            };
             vm.cocktails.push(newCocktail);
             vm.selectedCocktail = newCocktail;
         }

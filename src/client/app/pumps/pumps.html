@@ -54,11 +54,6 @@
                 <div flex="66">
                     <md-content layout-padding>
                         <md-input-container>
-                            <label>Id</label>
-                            <input ng-model="vm.selectedIngredient.id" type="text"
-                                   ng-disabled="!vm.selectedIngredient.isNew">
-                        </md-input-container>
-                        <md-input-container>
                             <label>Name</label>
                             <input ng-model="vm.selectedIngredient.name" type="text">
                         </md-input-container>
@@ -89,6 +84,18 @@
                         <md-input-container>
                             <label>Name</label>
                             <input ng-model="vm.selectedCocktail.name" type="text">
+                        </md-input-container>
+                        <md-input-container ng-show="vm.selectedCocktail.isNew">
+                            <label>Image</label>
+                            <md-select ng-model="vm.selectedCocktail.image">
+                                <md-option ng-repeat="image in vm.imageOptions" value="{{image.value}}">{{image.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container ng-show="!vm.selectedCocktail.isNew">
+                            <label>Image</label>
+                            <input ng-model="vm.selectedCocktail.image" type="text" ng-disabled="true"
+                                   ng-show="!vm.selectedCocktail.isNew">
                         </md-input-container>
                         <md-content>
                             <label>Bar Ingredients</label>
